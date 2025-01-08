@@ -11,7 +11,80 @@ export async function addMember(previousData: unknown, formData: FormData) {
   const dateOfBirth = formData.get("dateOfBirth") as string;
   const anniversary = formData.get("anniversary") as string;
 
+  if (
+    !firstName ||
+    !lastName ||
+    !phoneNumber ||
+    !flat ||
+    !dateOfBirth ||
+    !anniversary
+  ) {
+    return {
+      success: false,
+      message: "Missing fields",
+      fieldData: {
+        firstName,
+        lastName,
+        phoneNumber,
+        flat,
+        dateOfBirth,
+        anniversary,
+      },
+    };
+  }
+
+  if (phoneNumber.length !== 10) {
+    return {
+      success: false,
+      message: "Invalid phone number",
+      fieldData: {
+        firstName,
+        lastName,
+        flat,
+        phoneNumber,
+        dateOfBirth,
+        anniversary,
+      },
+    };
+  }
+  if (flat.length !== 3) {
+    return {
+      success: false,
+      message: "Invalid flat number",
+      fieldData: {
+        firstName,
+        lastName,
+        phoneNumber,
+        flat,
+        dateOfBirth,
+        anniversary,
+      },
+    };
+  }
+
   try {
+    const existingMember = await db.member.findUnique({
+      where: {
+        phoneNumber: phoneNumber,
+        firstName: firstName,
+        lastName: lastName,
+      },
+    });
+    if (existingMember) {
+      return {
+        success: false,
+        message: "Member already exists",
+        fieldData: {
+          firstName,
+          lastName,
+          phoneNumber,
+          flat,
+          dateOfBirth,
+          anniversary,
+        },
+      };
+    }
+
     const newMember = await db.member.create({
       data: {
         firstName,
@@ -22,10 +95,10 @@ export async function addMember(previousData: unknown, formData: FormData) {
         anniversary: new Date(anniversary),
       },
     });
-    console.log("Member created : ", newMember);
-    return true;
+    console.log("Member created");
+    return { success: true, message: "Member added successfully" };
   } catch (e) {
     console.log("Failed to add member to database:", e);
-    return false;
+    return { success: false, message: "Failed to add member.Please try again" };
   }
 }
