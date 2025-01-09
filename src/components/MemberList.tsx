@@ -33,7 +33,6 @@ export type Member = {
 
 export default async function MemberList() {
   const members: Member[] = await db.member.findMany();
-  console.log(members);
 
   return (
     <div>
@@ -51,17 +50,12 @@ export default async function MemberList() {
               className="bg-black px-2 rounded-md"
             >
               <AccordionItem value={`item-${member.id}`}>
-                {/* Dialog for Delete Confirmation */}
-
-                <AccordionTrigger className="text-white flex-1">
+                <div className="flex items-center justify-between w-full px-2">
                   <Dialog>
-                    <DialogTrigger asChild>
-                      <button
-                        className="p-1 hover:bg-gray-100 rounded"
-                        aria-label={`Delete ${member.firstName}`}
-                      >
+                    <DialogTrigger>
+                      <span>
                         <X className="w-4 h-4 text-red-500" />
-                      </button>
+                      </span>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
@@ -75,30 +69,30 @@ export default async function MemberList() {
                           </strong>
                         </DialogDescription>
                       </DialogHeader>
-                      <div className="flex justify-end gap-2 mt-4">
-                        <button className="px-4 py-2 text-gray-500 border rounded-md">
-                          Cancel
-                        </button>
-                        <form action={deleteMember}>
+                      <div>
+                        <form
+                          action={deleteMember}
+                          className="flex justify-center items-center"
+                        >
+                          <input type="hidden" name="id" value={member.id} />
                           <button
                             type="submit"
                             className="px-4 py-2 text-white bg-red-500 rounded-md"
-                            name="memberId"
-                            value={member.id}
                           >
-                            Confirm
+                            Delete
                           </button>
                         </form>
                       </div>
                     </DialogContent>
                   </Dialog>
 
-                  <div className="flex items-center justify-start w-full">
-                    <div>
-                      {member.firstName} {member.lastName}
+                  <AccordionTrigger className="text-white w-[290px]">
+                    <div className="flex gap-1 mr-36 ">
+                      <div>{member.firstName}</div>
+                      <div>{member.lastName} </div>
                     </div>
-                  </div>
-                </AccordionTrigger>
+                  </AccordionTrigger>
+                </div>
 
                 <AccordionContent className="text-red-500">
                   <div>Phone: {member.phoneNumber}</div>

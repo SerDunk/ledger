@@ -1,6 +1,7 @@
 "use server";
 
 import db from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
 //Add member to database
 export async function addMember(previousData: unknown, formData: FormData) {
@@ -85,7 +86,7 @@ export async function addMember(previousData: unknown, formData: FormData) {
       };
     }
 
-    const newMember = await db.member.create({
+    await db.member.create({
       data: {
         firstName,
         lastName,
@@ -96,6 +97,7 @@ export async function addMember(previousData: unknown, formData: FormData) {
       },
     });
     console.log("Member created");
+    revalidatePath("/members");
     return { success: true, message: "Member added successfully" };
   } catch (e) {
     console.log("Failed to add member to database:", e);
@@ -104,4 +106,17 @@ export async function addMember(previousData: unknown, formData: FormData) {
 }
 
 //Delete member from database
-export async function deleteMember() {}
+export async function deleteMember(formData: FormData) {
+  const id = formData.get("id") as string;
+
+  try {
+    await db.member.delete({
+      where: {
+        id: id,
+      },
+    });
+    revalidatePath("/members");
+  } catch (e) {
+    console.log(e);
+  }
+}

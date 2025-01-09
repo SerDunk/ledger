@@ -20,7 +20,7 @@ export default function Members() {
 
   const handleClose = () => {
     setOpen(false);
-    setMessage(null);
+    setMessage("");
   };
 
   useEffect(() => {
@@ -34,7 +34,6 @@ export default function Members() {
     } else if (data === undefined || data === null) {
       setMessage("Something went wrong");
     }
-    console.log(data);
   }, [data]);
 
   useEffect(() => {
