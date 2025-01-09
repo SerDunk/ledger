@@ -102,3 +102,6 @@ export async function addMember(previousData: unknown, formData: FormData) {
     return { success: false, message: "Failed to add member.Please try again" };
   }
 }
+
+//Delete member from database
+export async function deleteMember() {}

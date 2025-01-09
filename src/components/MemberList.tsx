@@ -7,8 +7,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
-type Member = {
+import { deleteMember } from "@/actions/actions";
+import { X } from "lucide-react";
+
+export type Member = {
   id: string;
   firstName: string;
   lastName: string;
@@ -37,13 +48,59 @@ export default async function MemberList() {
             <Accordion
               type="single"
               collapsible
-              className="bg-gray px-2 rounded-md  "
+              className="bg-black px-2 rounded-md"
             >
-              <AccordionItem value="item-1">
-                <AccordionTrigger className="text-pink-red">
-                  {member.firstName} {member.lastName}
+              <AccordionItem value={`item-${member.id}`}>
+                {/* Dialog for Delete Confirmation */}
+
+                <AccordionTrigger className="text-white flex-1">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button
+                        className="p-1 hover:bg-gray-100 rounded"
+                        aria-label={`Delete ${member.firstName}`}
+                      >
+                        <X className="w-4 h-4 text-red-500" />
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Are you sure?</DialogTitle>
+                        <DialogDescription>
+                          This action cannot be undone. It will permanently
+                          delete
+                          <strong>
+                            {" "}
+                            {member.firstName} {member.lastName}
+                          </strong>
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="flex justify-end gap-2 mt-4">
+                        <button className="px-4 py-2 text-gray-500 border rounded-md">
+                          Cancel
+                        </button>
+                        <form action={deleteMember}>
+                          <button
+                            type="submit"
+                            className="px-4 py-2 text-white bg-red-500 rounded-md"
+                            name="memberId"
+                            value={member.id}
+                          >
+                            Confirm
+                          </button>
+                        </form>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+
+                  <div className="flex items-center justify-start w-full">
+                    <div>
+                      {member.firstName} {member.lastName}
+                    </div>
+                  </div>
                 </AccordionTrigger>
-                <AccordionContent className=" text-red-500">
+
+                <AccordionContent className="text-red-500">
                   <div>Phone: {member.phoneNumber}</div>
                   <div>Flat: {member.flatNumber}</div>
                   <div>Birthday: {member.birthday.toDateString()}</div>
