@@ -35,12 +35,13 @@ export type Member = {
 
 export default async function MemberList() {
   const members: Member[] = await db.member.findMany();
+  const memberships = members.filter((member) => member.isMember === true);
 
   return (
     <div>
       <div>
         <h1 className="text-xl font-bold text-pink-red mb-2">
-          Total Members: {members.length}
+          Total Memberships: {memberships.length}
         </h1>
       </div>
       <div className="flex flex-col gap-1">
