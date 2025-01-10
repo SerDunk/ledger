@@ -120,3 +120,25 @@ export async function deleteMember(formData: FormData) {
     console.log(e);
   }
 }
+
+//Toggles Membership
+
+export async function toggleMembership(formData: FormData) {
+  const currentIsMember = formData.get("isMember") === "true";
+  const id = formData.get("id") as string;
+  const toggledIsMember = !currentIsMember;
+
+  try {
+    await db.member.update({
+      where: {
+        id: id,
+      },
+      data: {
+        isMember: toggledIsMember,
+      },
+    });
+    revalidatePath("/members");
+  } catch (e) {
+    console.log(e);
+  }
+}

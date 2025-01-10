@@ -15,8 +15,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Toggle } from "./ui/toggle";
 
-import { deleteMember } from "@/actions/actions";
+import { deleteMember, toggleMembership } from "@/actions/actions";
 import { X } from "lucide-react";
 
 export type Member = {
@@ -27,6 +28,7 @@ export type Member = {
   flatNumber: string;
   birthday: Date;
   anniversary: Date;
+  isMember: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -94,11 +96,24 @@ export default async function MemberList() {
                   </AccordionTrigger>
                 </div>
 
-                <AccordionContent className="text-red-500">
+                <AccordionContent className="text-red-500 flex flex-col gap-2">
                   <div>Phone: {member.phoneNumber}</div>
                   <div>Flat: {member.flatNumber}</div>
                   <div>Birthday: {member.birthday.toDateString()}</div>
                   <div>Anniversary: {member.anniversary.toDateString()}</div>
+                  <div>
+                    <form action={toggleMembership}>
+                      <input
+                        type="hidden"
+                        name="isMember"
+                        value={member.isMember.toString()}
+                      ></input>
+                      <input type="hidden" name="id" value={member.id}></input>
+                      <Toggle type="submit" pressed={member.isMember}>
+                        {member.isMember ? "Member" : "Not member"}
+                      </Toggle>
+                    </form>
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

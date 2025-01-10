@@ -21,6 +21,8 @@ model Member{
   flatNumber String
   birthday DateTime
   anniversary DateTime
+  isMember Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
 }
