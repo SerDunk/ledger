@@ -2,6 +2,7 @@
 
 import db from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { type Expense } from "@/components/EventForm";
 
 //Add member to database
 export async function addMember(previousData: unknown, formData: FormData) {
@@ -122,7 +123,6 @@ export async function deleteMember(formData: FormData) {
 }
 
 //Toggles Membership
-
 export async function toggleMembership(formData: FormData) {
   const currentIsMember = formData.get("isMember") === "true";
   const id = formData.get("id") as string;
@@ -140,5 +140,32 @@ export async function toggleMembership(formData: FormData) {
     revalidatePath("/members");
   } catch (e) {
     console.log(e);
+  }
+}
+
+//Add Event name and its expenses to database
+export async function addEventAndExpense(formData: FormData) {
+  const eventName = formData.get("eventName") as string;
+  const eventExpensesString = formData.get("expenses") as string;
+  const eventExpenses: Expense[] = JSON.parse(eventExpensesString);
+
+  try {
+    const event = await db.event.create({
+      data: {
+        name: eventName,
+        expenses: {
+          create: eventExpenses.map((expense) => {
+            return {
+              name: expense.name,
+              amount: expense.amount,
+            };
+          }),
+        },
+      },
+    });
+    console.log("Event Created:", event);
+    revalidatePath("/expenses");
+  } catch (e) {
+    console.log("Error creating an event");
   }
 }
