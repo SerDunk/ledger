@@ -177,24 +177,60 @@ export async function addEventAndExpense(
   }
 }
 
+//Delete event with expenses from database
 export async function deleteEvent(formData: FormData) {
-  const id = formData.get("id") as string;
-  console.log(id);
+  const eventId = formData.get("id") as string;
 
   try {
     await db.expense.deleteMany({
       where: {
-        eventId: id,
+        eventId: eventId,
       },
     });
 
     await db.event.delete({
       where: {
-        id: id,
+        id: eventId,
       },
     });
     revalidatePath("/expenses");
   } catch (e) {
     console.log(e);
   }
+}
+
+//Delete expenses from database
+export async function deleteExpense(formData: FormData) {
+  const expenseId = formData.get("id") as string;
+
+  try {
+    await db.expense.delete({
+      where: {
+        id: expenseId,
+      },
+    });
+
+    revalidatePath("/expenses");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+//Calculating total sum of each event from database
+export async function totalSum(eventId: string) {
+  const event = await db.event.findUnique({
+    where: {
+      id: eventId,
+    },
+    include: {
+      expenses: true,
+    },
+  });
+
+  const total = event?.expenses.reduce(
+    (sum, expense) => sum + expense.amount,
+    0
+  );
+
+  return total;
 }

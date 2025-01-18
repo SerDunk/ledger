@@ -1,4 +1,4 @@
-import { deleteEvent } from "@/actions/actions";
+import { deleteEvent, deleteExpense } from "@/actions/actions";
 import {
   Collapsible,
   CollapsibleContent,
@@ -15,6 +15,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Button } from "./ui/button";
+import { totalSum } from "@/actions/actions";
 
 export default async function ExpenseList() {
   const events = await db.event.findMany({
@@ -30,7 +32,7 @@ export default async function ExpenseList() {
           <Collapsible key={event.id}>
             <CollapsibleTrigger className="w-full mt-2" asChild>
               <div className="flex justify-between items-center bg-slate-400 text-white p-2">
-                <div className="flex gap-4 items-center w-1/2 text-left">
+                <div className="flex gap-4 items-center w-full  text-left">
                   <Dialog>
                     <DialogTrigger>
                       <span>
@@ -62,7 +64,10 @@ export default async function ExpenseList() {
                       </div>
                     </DialogContent>
                   </Dialog>
-                  <h1 className="text-2xl">{event.name}</h1>
+                  <div className="flex justify-around items-center w-full">
+                    <h1 className="text-2xl w-40">{event.name}</h1>
+                    <div>{totalSum(event.id)}</div>
+                  </div>
                 </div>
                 <div>
                   <ChevronDown />
@@ -74,9 +79,17 @@ export default async function ExpenseList() {
                 {event.expenses.map((expense) => {
                   return (
                     <li key={expense.id}>
-                      <div className="flex justify-between p-2 text-lg">
-                        <h3>{expense.name}</h3>
-                        <p>{expense.amount}</p>
+                      <div className="flex justify-between px-8 p-2 bg-red-200 text-lg">
+                        <div className="flex gap-4 justify-center items-center ">
+                          <form action={deleteExpense}>
+                            <input type="hidden" name="id" value={expense.id} />
+                            <Button variant={"ghost"}>
+                              <X className="h-4 w-4 text-red-500 text-center" />
+                            </Button>
+                          </form>
+                          <h3>{expense.name}</h3>
+                        </div>
+                        <p className="text-left w-16">{expense.amount}</p>
                       </div>
                     </li>
                   );
