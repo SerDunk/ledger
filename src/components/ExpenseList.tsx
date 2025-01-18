@@ -16,7 +16,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
-import { totalSum } from "@/actions/actions";
 
 export default async function ExpenseList() {
   const events = await db.event.findMany({
@@ -66,7 +65,7 @@ export default async function ExpenseList() {
                   </Dialog>
                   <div className="flex justify-around items-center w-full">
                     <h1 className="text-2xl w-40">{event.name}</h1>
-                    <div>{totalSum(event.id)}</div>
+                    <div>{event.total}</div>
                   </div>
                 </div>
                 <div>

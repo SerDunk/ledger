@@ -1,6 +1,6 @@
 "use server";
 
-import db from "@/lib/db";
+import db, { updateEventTotal } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { type Expense } from "@/components/EventForm";
 
@@ -160,7 +160,7 @@ export async function addEventAndExpense(
   });
 
   try {
-    await db.event.create({
+    const event = await db.event.create({
       data: {
         name: eventName,
         expenses: {
@@ -169,6 +169,7 @@ export async function addEventAndExpense(
       },
     });
 
+    await updateEventTotal(event.id);
     revalidatePath("/expenses");
     return { success: true, message: "Event added" };
   } catch (e) {
@@ -193,6 +194,7 @@ export async function deleteEvent(formData: FormData) {
         id: eventId,
       },
     });
+
     revalidatePath("/expenses");
   } catch (e) {
     console.log(e);
@@ -204,12 +206,12 @@ export async function deleteExpense(formData: FormData) {
   const expenseId = formData.get("id") as string;
 
   try {
-    await db.expense.delete({
+    const expense = await db.expense.delete({
       where: {
         id: expenseId,
       },
     });
-
+    await updateEventTotal(expense.eventId);
     revalidatePath("/expenses");
   } catch (e) {
     console.log(e);
@@ -217,20 +219,8 @@ export async function deleteExpense(formData: FormData) {
 }
 
 //Calculating total sum of each event from database
-export async function totalSum(eventId: string) {
-  const event = await db.event.findUnique({
-    where: {
-      id: eventId,
-    },
-    include: {
-      expenses: true,
-    },
-  });
-
-  const total = event?.expenses.reduce(
-    (sum, expense) => sum + expense.amount,
-    0
-  );
-
+export async function totalSum() {
+  const events = await db.event.findMany();
+  const total = events.reduce((sum, event) => sum + event.total, 0);
   return total;
 }
