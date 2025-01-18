@@ -182,6 +182,12 @@ export async function deleteEvent(formData: FormData) {
   console.log(id);
 
   try {
+    await db.expense.deleteMany({
+      where: {
+        eventId: id,
+      },
+    });
+
     await db.event.delete({
       where: {
         id: id,
