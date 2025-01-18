@@ -144,28 +144,51 @@ export async function toggleMembership(formData: FormData) {
 }
 
 //Add Event name and its expenses to database
-export async function addEventAndExpense(formData: FormData) {
+export async function addEventAndExpense(
+  previousData: unknown,
+  formData: FormData
+) {
   const eventName = formData.get("eventName") as string;
-  const eventExpensesString = formData.get("expenses") as string;
-  const eventExpenses: Expense[] = JSON.parse(eventExpensesString);
+  const expenseName = formData.getAll("expenseName") as string[];
+  const expenseAmount = formData.getAll("expenseAmount") as string[];
+
+  const expenses: Expense[] = expenseName.map((name, index) => {
+    return {
+      name,
+      amount: parseInt(expenseAmount[index]),
+    };
+  });
 
   try {
-    const event = await db.event.create({
+    await db.event.create({
       data: {
         name: eventName,
         expenses: {
-          create: eventExpenses.map((expense) => {
-            return {
-              name: expense.name,
-              amount: expense.amount,
-            };
-          }),
+          create: expenses,
         },
       },
     });
-    console.log("Event Created:", event);
+
+    revalidatePath("/expenses");
+    return { success: true, message: "Event added" };
+  } catch (e) {
+    console.log(e);
+    return { success: false, message: `Could not add event` };
+  }
+}
+
+export async function deleteEvent(formData: FormData) {
+  const id = formData.get("id") as string;
+  console.log(id);
+
+  try {
+    await db.event.delete({
+      where: {
+        id: id,
+      },
+    });
     revalidatePath("/expenses");
   } catch (e) {
-    console.log("Error creating an event");
+    console.log(e);
   }
 }

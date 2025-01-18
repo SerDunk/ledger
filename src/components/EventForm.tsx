@@ -4,7 +4,8 @@ import { addEventAndExpense } from "@/actions/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Minus, Plus } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { useEffect, useState } from "react";
+import { useActionState } from "react";
 
 export type Expense = {
   name: string;
@@ -14,6 +15,11 @@ export type Expense = {
 export default function EventForm() {
   const [open, setOpen] = useState<boolean>(false);
   const [expenses, setExpenses] = useState<Expense[] | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+  const [data, action, isPending] = useActionState(
+    addEventAndExpense,
+    undefined
+  );
 
   const handleClick = () => {
     setOpen(!open);
@@ -34,23 +40,28 @@ export default function EventForm() {
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-
-    if (expenses) {
-      formData.append("expenses", JSON.stringify(expenses));
-    }
-
-    addEventAndExpense(formData);
+  const closeForm = () => {
+    setOpen(false);
   };
+
+  useEffect(() => {
+    if (data) {
+      if (data.success) {
+        setOpen(false);
+        setMessage(data.message);
+      } else {
+        setMessage(data.message);
+      }
+    }
+  }, [data]);
+
   return (
     <div>
       <Button onClick={handleClick}>Add</Button>
       {open && (
         <div className="fixed flex justify-center items-center mb-40 inset-0">
           <form
-            onSubmit={handleSubmit}
+            action={action}
             className="flex flex-col gap-2 bg-white p-6 rounded-md w-full max-w-sm shadow-lg transform transition-transform duration-300"
           >
             <div className="flex justify-between items-center gap-2 p-2">
@@ -75,15 +86,15 @@ export default function EventForm() {
                   <div className="flex gap-2">
                     <Input
                       type="text"
-                      name={`expenseName-${index}`}
-                      id={`expenseName-${index}`}
+                      name={`expenseName`}
+                      id={`expenseName`}
                       placeholder="Name"
                       className="w-[60%]"
                     />
                     <Input
                       type="number"
-                      name={`expenseAmount-${index}`}
-                      id={`expenseAmount-${index}`}
+                      name={`expenseAmount`}
+                      id={`expenseAmount`}
                       placeholder="Amount"
                       className="w-[40%]"
                     />
@@ -97,11 +108,25 @@ export default function EventForm() {
                 </div>
               ))}
             </div>
+            {message && (
+              <div>
+                <p className="text-red-500 text-sm">{message}</p>
+              </div>
+            )}
             <div className="flex gap-2 p-2">
-              <Button type="submit" className="bg-green-500 text-white w-full">
+              <Button
+                type="submit"
+                className="bg-green-500 text-white w-full"
+                disabled={isPending}
+              >
                 Submit
               </Button>
-              <Button className="bg-red-500 text-white w-full">Cancel</Button>
+              <Button
+                onClick={() => closeForm()}
+                className="bg-red-500 text-white w-full"
+              >
+                Cancel
+              </Button>
             </div>
           </form>
         </div>
