@@ -224,3 +224,28 @@ export async function totalSum() {
   const total = events.reduce((sum, event) => sum + event.total, 0);
   return total;
 }
+
+//Update the expense amount and name
+export async function updateExpense(previousData: unknown, formData: FormData) {
+  const newExpenseName = formData.get("name") as string;
+  const newExpenseAmount = formData.get("amount") as string;
+  const expenseId = formData.get("id") as string;
+  const eventId = formData.get("eventId") as string;
+
+  try {
+    await db.expense.update({
+      where: {
+        id: expenseId,
+      },
+      data: {
+        name: newExpenseName,
+        amount: parseInt(newExpenseAmount),
+      },
+    });
+    await updateEventTotal(eventId);
+    revalidatePath("/expenses");
+    return { success: true };
+  } catch (e) {
+    console.log(e);
+  }
+}

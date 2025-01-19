@@ -1,4 +1,4 @@
-import { deleteEvent, deleteExpense } from "@/actions/actions";
+import { deleteEvent } from "@/actions/actions";
 import {
   Collapsible,
   CollapsibleContent,
@@ -15,7 +15,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "./ui/button";
+
+import EditableExpense from "./EditableExpense";
 
 export default async function ExpenseList() {
   const events = await db.event.findMany({
@@ -76,22 +77,7 @@ export default async function ExpenseList() {
             <CollapsibleContent>
               <ul className="flex flex-col">
                 {event.expenses.map((expense) => {
-                  return (
-                    <li key={expense.id}>
-                      <div className="flex justify-between px-8 p-2 bg-red-200 text-lg">
-                        <div className="flex gap-4 justify-center items-center ">
-                          <form action={deleteExpense}>
-                            <input type="hidden" name="id" value={expense.id} />
-                            <Button variant={"ghost"}>
-                              <X className="h-4 w-4 text-red-500 text-center" />
-                            </Button>
-                          </form>
-                          <h3>{expense.name}</h3>
-                        </div>
-                        <p className="text-left w-16">{expense.amount}</p>
-                      </div>
-                    </li>
-                  );
+                  return <EditableExpense key={expense.id} expense={expense} />;
                 })}
               </ul>
             </CollapsibleContent>
