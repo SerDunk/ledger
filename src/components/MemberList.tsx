@@ -2,11 +2,10 @@
 
 import db from "@/lib/db";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
   Dialog,
   DialogContent,
@@ -15,10 +14,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Toggle } from "./ui/toggle";
+import { X, ChevronDown } from "lucide-react";
 
 import { deleteMember, toggleMembership } from "@/actions/actions";
-import { X } from "lucide-react";
+import { Toggle } from "./ui/toggle";
 
 export type Member = {
   id: string;
@@ -40,25 +39,20 @@ export default async function MemberList() {
   return (
     <div>
       <div>
-        <h1 className="text-xl font-bold text-pink-red mb-2">
+        <h1 className="text-xl font-bold text-pink-red mb-4">
           Total Memberships: {memberships.length}
         </h1>
       </div>
-      <div className="flex flex-col gap-1">
+      <div>
         {members.map((member) => (
-          <div key={member.id}>
-            <Accordion
-              type="single"
-              collapsible
-              className="bg-black px-2 rounded-md"
-            >
-              <AccordionItem value={`item-${member.id}`}>
-                <div className="flex items-center justify-between w-full px-2">
+          <Collapsible key={member.id} className="mb-2">
+            <CollapsibleTrigger className="w-full" asChild>
+              <div className="flex justify-between items-center bg-slate-400 text-white p-2 rounded-md">
+                <div className="flex gap-4 items-center w-full text-left">
+                  {/* Delete Member Dialog */}
                   <Dialog>
                     <DialogTrigger>
-                      <span>
-                        <X className="w-4 h-4 text-red-500" />
-                      </span>
+                      <X className="w-4 h-4 text-red-500" />
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
@@ -72,34 +66,34 @@ export default async function MemberList() {
                           </strong>
                         </DialogDescription>
                       </DialogHeader>
-                      <div>
-                        <form
-                          action={deleteMember}
-                          className="flex justify-center items-center"
+                      <form
+                        action={deleteMember}
+                        className="flex justify-center items-center"
+                      >
+                        <input type="hidden" name="id" value={member.id} />
+                        <button
+                          type="submit"
+                          className="px-4 py-2 text-white bg-red-500 rounded-md"
                         >
-                          <input type="hidden" name="id" value={member.id} />
-                          <button
-                            type="submit"
-                            className="px-4 py-2 text-white bg-red-500 rounded-md"
-                          >
-                            Delete
-                          </button>
-                        </form>
-                      </div>
+                          Delete
+                        </button>
+                      </form>
                     </DialogContent>
                   </Dialog>
-
-                  <AccordionTrigger className="text-white w-[290px]">
-                    <div className="flex gap-1 mr-36 ">
-                      <div>{member.firstName}</div>
-                      <div>{member.lastName} </div>
-                    </div>
-                  </AccordionTrigger>
+                  <div className="flex flex-col">
+                    <h1 className="text-lg">
+                      {member.firstName} {member.lastName}
+                    </h1>
+                    <span className="text-sm">Flat: {member.flatNumber}</span>
+                  </div>
                 </div>
-
-                <AccordionContent className="text-red-500 flex flex-col gap-2">
+                <ChevronDown />
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="p-4 bg-gray-100 rounded-md">
+                <div className="text-sm">
                   <div>Phone: {member.phoneNumber}</div>
-                  <div>Flat: {member.flatNumber}</div>
                   <div>Birthday: {member.birthday.toDateString()}</div>
                   <div>Anniversary: {member.anniversary.toDateString()}</div>
                   <div>
@@ -108,17 +102,17 @@ export default async function MemberList() {
                         type="hidden"
                         name="isMember"
                         value={member.isMember.toString()}
-                      ></input>
-                      <input type="hidden" name="id" value={member.id}></input>
+                      />
+                      <input type="hidden" name="id" value={member.id} />
                       <Toggle type="submit" pressed={member.isMember}>
-                        {member.isMember ? "Member" : "Not member"}
+                        {member.isMember ? "Member" : "Not Member"}
                       </Toggle>
                     </form>
                   </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
+                </div>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         ))}
       </div>
     </div>
