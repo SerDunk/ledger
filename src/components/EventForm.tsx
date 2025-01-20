@@ -3,6 +3,7 @@
 import { addEventAndExpense } from "@/actions/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { StringMap } from "@/lib/types";
 import { Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
@@ -16,6 +17,7 @@ export default function EventForm() {
   const [open, setOpen] = useState<boolean>(false);
   const [expenses, setExpenses] = useState<Expense[] | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [fieldError, setFieldError] = useState<StringMap | null>(null);
   const [data, action, isPending] = useActionState(
     addEventAndExpense,
     undefined
@@ -23,6 +25,8 @@ export default function EventForm() {
 
   const handleClick = () => {
     setOpen(!open);
+    setMessage(null);
+    setFieldError(null);
   };
 
   const addField = () => {
@@ -42,6 +46,8 @@ export default function EventForm() {
 
   const closeForm = () => {
     setOpen(false);
+    setMessage(null);
+    setFieldError(null);
   };
 
   useEffect(() => {
@@ -49,8 +55,10 @@ export default function EventForm() {
       if (data.success) {
         setOpen(false);
         setMessage(data.message);
+        setFieldError(null);
       } else {
         setMessage(data.message);
+        setFieldError(data.fieldErrors || null);
       }
     }
   }, [data]);
@@ -76,6 +84,11 @@ export default function EventForm() {
                 <Plus onClick={addField} />
               </div>
             </div>
+            {fieldError?.["eventName"] && (
+              <div className="text-red-500 text-sm px-2">
+                {fieldError["eventName"]}
+              </div>
+            )}
 
             <div>
               {expenses?.map((expense, index) => (
@@ -107,12 +120,23 @@ export default function EventForm() {
                   </div>
                 </div>
               ))}
+              {fieldError &&
+                expenses?.map((_, index) => (
+                  <div key={index}>
+                    {fieldError[`expenses[${index}].name`] && (
+                      <div className="text-red-500 text-sm">
+                        {fieldError[`expenses[${index}].name`]}
+                      </div>
+                    )}
+                    {fieldError[`expenses[${index}].amount`] && (
+                      <div className="text-red-500 text-sm">
+                        {fieldError[`expenses[${index}].amount`]}
+                      </div>
+                    )}
+                  </div>
+                ))}
             </div>
-            {message && (
-              <div>
-                <p className="text-red-500 text-sm">{message}</p>
-              </div>
-            )}
+
             <div className="flex gap-2 p-2">
               <Button
                 type="submit"
@@ -122,7 +146,7 @@ export default function EventForm() {
                 Submit
               </Button>
               <Button
-                onClick={() => closeForm()}
+                onClick={closeForm}
                 className="bg-red-500 text-white w-full"
               >
                 Cancel

@@ -2,67 +2,33 @@
 
 import db, { updateEventTotal } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { type Expense } from "@/components/EventForm";
+import { eventSchema, memberSchema } from "@/schema/schema";
+import convertZodError from "@/lib/error";
 
 //Add member to database
 export async function addMember(previousData: unknown, formData: FormData) {
-  const firstName = formData.get("firstName") as string;
-  const lastName = formData.get("lastName") as string;
-  const phoneNumber = formData.get("phoneNumber") as string;
-  const flat = formData.get("flat") as string;
-  const dateOfBirth = formData.get("dateOfBirth") as string;
-  const anniversary = formData.get("anniversary") as string;
+  const unvalidatedData = {
+    firstName: formData.get("firstName") as string,
+    lastName: formData.get("lastName") as string,
+    phoneNumber: formData.get("phoneNumber") as string,
+    flat: formData.get("flat") as string,
+    dateOfBirth: formData.get("dateOfBirth") as string,
+    anniversary: formData.get("anniversary") as string,
+  };
 
-  if (
-    !firstName ||
-    !lastName ||
-    !phoneNumber ||
-    !flat ||
-    !dateOfBirth ||
-    !anniversary
-  ) {
+  const validatedData = memberSchema.safeParse(unvalidatedData);
+
+  if (!validatedData.success) {
     return {
       success: false,
-      message: "Missing fields",
-      fieldData: {
-        firstName,
-        lastName,
-        phoneNumber,
-        flat,
-        dateOfBirth,
-        anniversary,
-      },
+      message: "Validation errors occurred",
+      fieldErrors: convertZodError(validatedData.error),
+      fieldData: unvalidatedData,
     };
   }
 
-  if (phoneNumber.length !== 10) {
-    return {
-      success: false,
-      message: "Invalid phone number",
-      fieldData: {
-        firstName,
-        lastName,
-        flat,
-        phoneNumber,
-        dateOfBirth,
-        anniversary,
-      },
-    };
-  }
-  if (flat.length !== 3) {
-    return {
-      success: false,
-      message: "Invalid flat number",
-      fieldData: {
-        firstName,
-        lastName,
-        phoneNumber,
-        flat,
-        dateOfBirth,
-        anniversary,
-      },
-    };
-  }
+  const { firstName, lastName, phoneNumber, flat, dateOfBirth, anniversary } =
+    validatedData.data;
 
   try {
     const existingMember = await db.member.findUnique({
@@ -72,18 +38,12 @@ export async function addMember(previousData: unknown, formData: FormData) {
         lastName: lastName,
       },
     });
+
     if (existingMember) {
       return {
         success: false,
         message: "Member already exists",
-        fieldData: {
-          firstName,
-          lastName,
-          phoneNumber,
-          flat,
-          dateOfBirth,
-          anniversary,
-        },
+        fieldData: validatedData.data,
       };
     }
 
@@ -97,12 +57,16 @@ export async function addMember(previousData: unknown, formData: FormData) {
         anniversary: new Date(anniversary),
       },
     });
+
     console.log("Member created");
     revalidatePath("/members");
     return { success: true, message: "Member added successfully" };
   } catch (e) {
     console.log("Failed to add member to database:", e);
-    return { success: false, message: "Failed to add member.Please try again" };
+    return {
+      success: false,
+      message: "Failed to add member. Please try again",
+    };
   }
 }
 
@@ -152,12 +116,24 @@ export async function addEventAndExpense(
   const expenseName = formData.getAll("expenseName") as string[];
   const expenseAmount = formData.getAll("expenseAmount") as string[];
 
-  const expenses: Expense[] = expenseName.map((name, index) => {
-    return {
-      name,
-      amount: parseInt(expenseAmount[index]),
-    };
+  const expenses = expenseName.map((name, index) => ({
+    name,
+    amount: parseInt(expenseAmount[index]),
+  }));
+
+  const validatedData = eventSchema.safeParse({
+    eventName,
+    expenses,
   });
+
+  if (!validatedData.success) {
+    return {
+      success: false,
+      message: "Validation errors occurred",
+      fieldErrors: convertZodError(validatedData.error),
+      fieldData: { eventName, expenses },
+    };
+  }
 
   try {
     const event = await db.event.create({
@@ -171,10 +147,10 @@ export async function addEventAndExpense(
 
     await updateEventTotal(event.id);
     revalidatePath("/expenses");
-    return { success: true, message: "Event added" };
+    return { success: true, message: "Event added successfully" };
   } catch (e) {
     console.log(e);
-    return { success: false, message: `Could not add event` };
+    return { success: false, message: "Could not add event" };
   }
 }
 

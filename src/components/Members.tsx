@@ -1,4 +1,5 @@
 "use client";
+
 import { addMember } from "@/actions/actions";
 import SearchBar from "@/components/SearchBar";
 import { Button } from "@/components/ui/button";
@@ -6,11 +7,12 @@ import { Input } from "@/components/ui/input";
 import { PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
+import { StringMap } from "@/lib/types";
 
 export default function Members() {
   const [open, setOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
-
+  const [fieldError, setFieldError] = useState<StringMap | null>(null);
   const [data, action, isPending] = useActionState(addMember, undefined);
 
   const handleClick = () => {
@@ -20,7 +22,8 @@ export default function Members() {
 
   const handleClose = () => {
     setOpen(false);
-    setMessage("");
+    setMessage(null);
+    setFieldError(null);
   };
 
   useEffect(() => {
@@ -28,8 +31,9 @@ export default function Members() {
       if (data.success) {
         setOpen(false);
         setMessage(null);
+        setFieldError(null);
       } else {
-        setMessage(data.message);
+        setFieldError(data.fieldErrors || null);
       }
     } else if (data === undefined || data === null) {
       setMessage("Something went wrong");
@@ -76,7 +80,11 @@ export default function Members() {
               defaultValue={data?.fieldData?.firstName}
               className="w-full"
             />
+            {fieldError?.firstName && (
+              <div className="text-red-500 text-sm">{fieldError.firstName}</div>
+            )}
           </div>
+
           <div>
             <Input
               type="text"
@@ -86,7 +94,11 @@ export default function Members() {
               defaultValue={data?.fieldData?.lastName}
               className="w-full"
             />
+            {fieldError?.lastName && (
+              <div className="text-red-500 text-sm">{fieldError.lastName}</div>
+            )}
           </div>
+
           <div>
             <Input
               type="number"
@@ -96,7 +108,13 @@ export default function Members() {
               defaultValue={data?.fieldData?.phoneNumber}
               className="w-full"
             />
+            {fieldError?.phoneNumber && (
+              <div className="text-red-500 text-sm">
+                {fieldError.phoneNumber}
+              </div>
+            )}
           </div>
+
           <div>
             <Input
               type="number"
@@ -106,33 +124,42 @@ export default function Members() {
               defaultValue={data?.fieldData?.flat}
               className="w-full"
             />
+            {fieldError?.flat && (
+              <div className="text-red-500 text-sm">{fieldError.flat}</div>
+            )}
           </div>
+
           <div>
             <Input
               type="date"
               name="dateOfBirth"
               id="dateOfBirth"
               placeholder="Date Of Birth"
-              defaultValue={data?.fieldData?.dateOfBirth}
+              defaultValue={data?.fieldData?.dateOfBirth?.toString()}
               className="w-full"
             />
+            {fieldError?.dateOfBirth && (
+              <div className="text-red-500 text-sm">
+                {fieldError.dateOfBirth}
+              </div>
+            )}
           </div>
+
           <div>
             <Input
               type="date"
               name="anniversary"
               id="anniversary"
               placeholder="Anniversary"
-              defaultValue={data?.fieldData?.anniversary}
+              defaultValue={data?.fieldData?.anniversary?.toString()}
               className="w-full"
             />
+            {fieldError?.anniversary && (
+              <div className="text-red-500 text-sm">
+                {fieldError.anniversary}
+              </div>
+            )}
           </div>
-
-          {message && (
-            <div>
-              <p className="text-red-500 text-sm">{message}</p>
-            </div>
-          )}
 
           <div className="flex gap-2">
             <Button

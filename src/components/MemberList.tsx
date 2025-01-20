@@ -49,7 +49,6 @@ export default async function MemberList() {
             <CollapsibleTrigger className="w-full" asChild>
               <div className="flex justify-between items-center bg-slate-400 text-white p-2 rounded-md">
                 <div className="flex gap-4 items-center w-full text-left">
-                  {/* Delete Member Dialog */}
                   <Dialog>
                     <DialogTrigger>
                       <X className="w-4 h-4 text-red-500" />
@@ -80,11 +79,26 @@ export default async function MemberList() {
                       </form>
                     </DialogContent>
                   </Dialog>
-                  <div className="flex flex-col">
-                    <h1 className="text-lg">
-                      {member.firstName} {member.lastName}
-                    </h1>
-                    <span className="text-sm">Flat: {member.flatNumber}</span>
+                  <div className="flex justify-between w-full items-center">
+                    <div className="w-[80%]">
+                      <h1 className="text-lg">
+                        {member.firstName} {member.lastName}
+                      </h1>
+                      <span className="text-sm">Flat: {member.flatNumber}</span>
+                    </div>
+                    <div className="px-4">
+                      <form action={toggleMembership}>
+                        <input
+                          type="hidden"
+                          name="isMember"
+                          value={member.isMember.toString()}
+                        />
+                        <input type="hidden" name="id" value={member.id} />
+                        <Toggle type="submit" pressed={member.isMember}>
+                          {member.isMember ? "Member" : "Not Member"}
+                        </Toggle>
+                      </form>
+                    </div>
                   </div>
                 </div>
                 <ChevronDown />
@@ -96,19 +110,6 @@ export default async function MemberList() {
                   <div>Phone: {member.phoneNumber}</div>
                   <div>Birthday: {member.birthday.toDateString()}</div>
                   <div>Anniversary: {member.anniversary.toDateString()}</div>
-                  <div>
-                    <form action={toggleMembership}>
-                      <input
-                        type="hidden"
-                        name="isMember"
-                        value={member.isMember.toString()}
-                      />
-                      <input type="hidden" name="id" value={member.id} />
-                      <Toggle type="submit" pressed={member.isMember}>
-                        {member.isMember ? "Member" : "Not Member"}
-                      </Toggle>
-                    </form>
-                  </div>
                 </div>
               </div>
             </CollapsibleContent>
