@@ -8,21 +8,20 @@ import { PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { StringMap } from "@/lib/types";
+import { Toaster, toast } from "sonner";
 
 export default function Members() {
   const [open, setOpen] = useState<boolean>(false);
-  const [message, setMessage] = useState<string | null>(null);
+
   const [fieldError, setFieldError] = useState<StringMap | null>(null);
   const [data, action, isPending] = useActionState(addMember, undefined);
 
   const handleClick = () => {
-    setMessage(null);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
-    setMessage(null);
     setFieldError(null);
   };
 
@@ -30,13 +29,12 @@ export default function Members() {
     if (data) {
       if (data.success) {
         setOpen(false);
-        setMessage(null);
+        toast.success(data.message);
         setFieldError(null);
       } else {
         setFieldError(data.fieldErrors || null);
+        toast.error(data.message);
       }
-    } else if (data === undefined || data === null) {
-      setMessage("Something went wrong");
     }
   }, [data]);
 
@@ -50,6 +48,7 @@ export default function Members() {
 
   return (
     <div className="flex flex-col items-center gap-2 py-4 relative">
+      <Toaster />
       <div>
         <h1>Members List</h1>
       </div>

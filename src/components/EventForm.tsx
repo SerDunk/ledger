@@ -7,6 +7,7 @@ import { StringMap } from "@/lib/types";
 import { Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
+import { Toaster, toast } from "sonner";
 
 export type Expense = {
   name: string;
@@ -16,7 +17,7 @@ export type Expense = {
 export default function EventForm() {
   const [open, setOpen] = useState<boolean>(false);
   const [expenses, setExpenses] = useState<Expense[] | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
+
   const [fieldError, setFieldError] = useState<StringMap | null>(null);
   const [data, action, isPending] = useActionState(
     addEventAndExpense,
@@ -25,7 +26,6 @@ export default function EventForm() {
 
   const handleClick = () => {
     setOpen(!open);
-    setMessage(null);
     setFieldError(null);
   };
 
@@ -46,7 +46,6 @@ export default function EventForm() {
 
   const closeForm = () => {
     setOpen(false);
-    setMessage(null);
     setFieldError(null);
   };
 
@@ -54,10 +53,10 @@ export default function EventForm() {
     if (data) {
       if (data.success) {
         setOpen(false);
-        setMessage(data.message);
+        toast.success(data.message);
         setFieldError(null);
       } else {
-        setMessage(data.message);
+        toast.error(data.message);
         setFieldError(data.fieldErrors || null);
       }
     }
@@ -65,6 +64,7 @@ export default function EventForm() {
 
   return (
     <div>
+      <Toaster />
       <Button onClick={handleClick}>Add</Button>
       {open && (
         <div className="fixed flex justify-center items-center mb-40 inset-0">
