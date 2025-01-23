@@ -3,7 +3,6 @@
 import { addEventAndExpense } from "@/actions/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { StringMap } from "@/lib/types";
 import { Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
@@ -17,8 +16,6 @@ export type Expense = {
 export default function EventForm() {
   const [open, setOpen] = useState<boolean>(false);
   const [expenses, setExpenses] = useState<Expense[] | null>(null);
-
-  const [fieldError, setFieldError] = useState<StringMap | null>(null);
   const [data, action, isPending] = useActionState(
     addEventAndExpense,
     undefined
@@ -26,7 +23,6 @@ export default function EventForm() {
 
   const handleClick = () => {
     setOpen(!open);
-    setFieldError(null);
   };
 
   const addField = () => {
@@ -46,7 +42,6 @@ export default function EventForm() {
 
   const closeForm = () => {
     setOpen(false);
-    setFieldError(null);
   };
 
   useEffect(() => {
@@ -54,10 +49,8 @@ export default function EventForm() {
       if (data.success) {
         setOpen(false);
         toast.success(data.message);
-        setFieldError(null);
       } else {
         toast.error(data.message);
-        setFieldError(data.fieldErrors || null);
       }
     }
   }, [data]);
@@ -84,9 +77,9 @@ export default function EventForm() {
                 <Plus onClick={addField} />
               </div>
             </div>
-            {fieldError?.["eventName"] && (
+            {data?.fieldErrors?.["eventName"] && (
               <div className="text-red-500 text-sm px-2">
-                {fieldError["eventName"]}
+                {data.fieldErrors?.["eventName"]}
               </div>
             )}
 
@@ -120,17 +113,12 @@ export default function EventForm() {
                   </div>
                 </div>
               ))}
-              {fieldError &&
-                expenses?.map((_, index) => (
+              {data?.fieldErrors &&
+                expenses?.map((_, index: number) => (
                   <div key={index}>
-                    {fieldError[`expenses[${index}].name`] && (
+                    {data?.fieldErrors?.expenses?.[index] && (
                       <div className="text-red-500 text-sm">
-                        {fieldError[`expenses[${index}].name`]}
-                      </div>
-                    )}
-                    {fieldError[`expenses[${index}].amount`] && (
-                      <div className="text-red-500 text-sm">
-                        {fieldError[`expenses[${index}].amount`]}
+                        {data?.fieldErrors?.expenses?.[index]}
                       </div>
                     )}
                   </div>

@@ -3,7 +3,6 @@
 import db, { updateEventTotal } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { eventSchema, memberSchema } from "@/schema/schema";
-import convertZodError from "@/lib/error";
 
 //Add member to database
 export async function addMember(previousData: unknown, formData: FormData) {
@@ -22,7 +21,7 @@ export async function addMember(previousData: unknown, formData: FormData) {
     return {
       success: false,
       message: "Validation errors occurred",
-      fieldErrors: convertZodError(validatedData.error),
+      fieldErrors: validatedData.error.flatten().fieldErrors,
       fieldData: unvalidatedData,
     };
   }
@@ -130,7 +129,7 @@ export async function addEventAndExpense(
     return {
       success: false,
       message: "Validation errors occurred",
-      fieldErrors: convertZodError(validatedData.error),
+      fieldErrors: validatedData.error.flatten().fieldErrors,
       fieldData: { eventName, expenses },
     };
   }

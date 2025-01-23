@@ -7,13 +7,10 @@ import { Input } from "@/components/ui/input";
 import { PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
-import { StringMap } from "@/lib/types";
 import { Toaster, toast } from "sonner";
 
 export default function Members() {
   const [open, setOpen] = useState<boolean>(false);
-
-  const [fieldError, setFieldError] = useState<StringMap | null>(null);
   const [data, action, isPending] = useActionState(addMember, undefined);
 
   const handleClick = () => {
@@ -22,7 +19,6 @@ export default function Members() {
 
   const handleClose = () => {
     setOpen(false);
-    setFieldError(null);
   };
 
   useEffect(() => {
@@ -30,9 +26,7 @@ export default function Members() {
       if (data.success) {
         setOpen(false);
         toast.success(data.message);
-        setFieldError(null);
       } else {
-        setFieldError(data.fieldErrors || null);
         toast.error(data.message);
       }
     }
@@ -79,8 +73,10 @@ export default function Members() {
               defaultValue={data?.fieldData?.firstName}
               className="w-full"
             />
-            {fieldError?.firstName && (
-              <div className="text-red-500 text-sm">{fieldError.firstName}</div>
+            {data?.fieldErrors?.firstName && (
+              <div className="text-red-500 text-sm">
+                {data.fieldErrors.firstName}
+              </div>
             )}
           </div>
 
@@ -93,8 +89,10 @@ export default function Members() {
               defaultValue={data?.fieldData?.lastName}
               className="w-full"
             />
-            {fieldError?.lastName && (
-              <div className="text-red-500 text-sm">{fieldError.lastName}</div>
+            {data?.fieldErrors?.lastName && (
+              <div className="text-red-500 text-sm">
+                {data.fieldErrors.lastName}
+              </div>
             )}
           </div>
 
@@ -107,9 +105,9 @@ export default function Members() {
               defaultValue={data?.fieldData?.phoneNumber}
               className="w-full"
             />
-            {fieldError?.phoneNumber && (
+            {data?.fieldErrors?.phoneNumber && (
               <div className="text-red-500 text-sm">
-                {fieldError.phoneNumber}
+                {data.fieldErrors.phoneNumber}
               </div>
             )}
           </div>
@@ -123,8 +121,10 @@ export default function Members() {
               defaultValue={data?.fieldData?.flat}
               className="w-full"
             />
-            {fieldError?.flat && (
-              <div className="text-red-500 text-sm">{fieldError.flat}</div>
+            {data?.fieldErrors?.flat && (
+              <div className="text-red-500 text-sm">
+                {data.fieldErrors.flat}
+              </div>
             )}
           </div>
 
@@ -137,9 +137,9 @@ export default function Members() {
               defaultValue={data?.fieldData?.dateOfBirth?.toString()}
               className="w-full"
             />
-            {fieldError?.dateOfBirth && (
+            {data?.fieldErrors?.dateOfBirth && (
               <div className="text-red-500 text-sm">
-                {fieldError.dateOfBirth}
+                {data.fieldErrors.dateOfBirth}
               </div>
             )}
           </div>
@@ -153,9 +153,9 @@ export default function Members() {
               defaultValue={data?.fieldData?.anniversary?.toString()}
               className="w-full"
             />
-            {fieldError?.anniversary && (
+            {data?.fieldErrors?.anniversary && (
               <div className="text-red-500 text-sm">
-                {fieldError.anniversary}
+                {data.fieldErrors.anniversary}
               </div>
             )}
           </div>
