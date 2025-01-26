@@ -14,8 +14,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { X, ChevronDown } from "lucide-react";
-import { Toggle } from "./ui/toggle";
 import EditableMember from "./EditableMember";
+import { Switch } from "./ui/switch";
 
 export type Member = {
   id: string;
@@ -92,9 +92,7 @@ export default async function MemberList() {
                           value={member.isMember.toString()}
                         />
                         <input type="hidden" name="id" value={member.id} />
-                        <Toggle type="submit" pressed={member.isMember}>
-                          {member.isMember ? "Member" : "Not Member"}
-                        </Toggle>
+                        <Switch type="submit" checked={member.isMember} />
                       </form>
                     </div>
                   </div>
