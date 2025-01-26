@@ -22,7 +22,7 @@ export default {
           },
           to: {
             height: "var(--radix-accordion-content-height)",
-          },	
+          },
         },
         "accordion-up": {
           from: {
@@ -39,5 +39,6 @@ export default {
       },
     },
   },
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
