@@ -116,17 +116,17 @@ export default function EditableMember({ member }: { member: Member }) {
               </div>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-4">
             <Button
               disabled={isPending}
               type="submit"
-              className="px-2 py-1 bg-green-500 text-white"
+              className="px-5 py-1 bg-green-500 text-white"
             >
               <Check className="h-4 w-4 text-white" />
             </Button>
             <Button
               type="button"
-              className="px-2 py-1 bg-red-500 text-white"
+              className="px-5 py-1 bg-red-500 text-white"
               onClick={() => setIsEditing(false)}
             >
               <X className="h-4 w-4 text-white" />

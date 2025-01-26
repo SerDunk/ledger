@@ -1,10 +1,10 @@
 import MemberList from "@/components/MemberList";
-import Members from "@/components/Members";
+import MemberForm from "@/components/MemberForm";
 
 export default function MemberPage() {
   return (
     <div>
-      <Members />
+      <MemberForm />
       <MemberList />
     </div>
   );
