@@ -224,3 +224,35 @@ export async function updateExpense(previousData: unknown, formData: FormData) {
     console.log(e);
   }
 }
+
+//Update Member server action
+export async function updateMember(previousData: unknown, formData: FormData) {
+  const firstName = formData.get("firstName") as string;
+  const lastName = formData.get("lastName") as string;
+  const phoneNumber = formData.get("phoneNumber") as string;
+  const flatNumber = formData.get("flatNumber") as string;
+  const birthday = formData.get("birthday") as string;
+  const anniversary = formData.get("anniversary") as string;
+  const memberId = formData.get("id") as string;
+
+  try {
+    await db.member.update({
+      where: {
+        id: memberId,
+      },
+      data: {
+        firstName,
+        lastName,
+        phoneNumber,
+        flatNumber,
+        birthday: new Date(birthday),
+        anniversary: new Date(anniversary),
+      },
+    });
+    revalidatePath("/members"); // Revalidate the members page to reflect changes
+    return { success: true };
+  } catch (e) {
+    console.log(e);
+    return { success: false, errors: "Could not update member" };
+  }
+}

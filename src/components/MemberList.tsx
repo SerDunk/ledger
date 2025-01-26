@@ -1,5 +1,4 @@
-"use server";
-
+import { deleteMember, toggleMembership } from "@/actions/actions";
 import db from "@/lib/db";
 import {
   Collapsible,
@@ -15,9 +14,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { X, ChevronDown } from "lucide-react";
-
-import { deleteMember, toggleMembership } from "@/actions/actions";
 import { Toggle } from "./ui/toggle";
+import EditableMember from "./EditableMember";
 
 export type Member = {
   id: string;
@@ -106,11 +104,7 @@ export default async function MemberList() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <div className="p-4 bg-gray-100 rounded-md">
-                <div className="text-sm">
-                  <div>Phone: {member.phoneNumber}</div>
-                  <div>Birthday: {member.birthday.toDateString()}</div>
-                  <div>Anniversary: {member.anniversary.toDateString()}</div>
-                </div>
+                <EditableMember member={member} />
               </div>
             </CollapsibleContent>
           </Collapsible>
