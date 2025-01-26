@@ -129,22 +129,31 @@ export default function Members() {
           </div>
 
           <div>
+            <label htmlFor="birthday" className="text-sm text-slate-400 ml-1">
+              Date of Birth
+            </label>
             <Input
               type="date"
-              name="dateOfBirth"
-              id="dateOfBirth"
+              name="birthday"
+              id="birthday"
               placeholder="Date Of Birth"
-              defaultValue={data?.fieldData?.dateOfBirth?.toString()}
+              defaultValue={data?.fieldData?.birthday?.toString()}
               className="w-full"
             />
-            {data?.fieldErrors?.dateOfBirth && (
+            {data?.fieldErrors?.birthday && (
               <div className="text-red-500 text-sm">
-                {data.fieldErrors.dateOfBirth}
+                {data.fieldErrors.birthday}
               </div>
             )}
           </div>
 
           <div>
+            <label
+              htmlFor="anniversary"
+              className="text-sm text-slate-400 ml-1"
+            >
+              Date of Anniversary
+            </label>
             <Input
               type="date"
               name="anniversary"

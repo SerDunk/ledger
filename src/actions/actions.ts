@@ -2,7 +2,7 @@
 
 import db, { updateEventTotal } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { eventSchema, memberSchema } from "@/schema/schema";
+import { eventSchema, memberSchema, expenseSchema } from "@/schema/schema";
 
 //Add member to database
 export async function addMember(previousData: unknown, formData: FormData) {
@@ -11,7 +11,7 @@ export async function addMember(previousData: unknown, formData: FormData) {
     lastName: formData.get("lastName") as string,
     phoneNumber: formData.get("phoneNumber") as string,
     flat: formData.get("flat") as string,
-    dateOfBirth: formData.get("dateOfBirth") as string,
+    birthday: formData.get("birthday") as string,
     anniversary: formData.get("anniversary") as string,
   };
 
@@ -26,7 +26,7 @@ export async function addMember(previousData: unknown, formData: FormData) {
     };
   }
 
-  const { firstName, lastName, phoneNumber, flat, dateOfBirth, anniversary } =
+  const { firstName, lastName, phoneNumber, flat, birthday, anniversary } =
     validatedData.data;
 
   try {
@@ -52,7 +52,7 @@ export async function addMember(previousData: unknown, formData: FormData) {
         lastName,
         phoneNumber,
         flatNumber: flat,
-        birthday: new Date(dateOfBirth),
+        birthday: new Date(birthday),
         anniversary: new Date(anniversary),
       },
     });
@@ -121,8 +121,8 @@ export async function addEventAndExpense(
   }));
 
   const validatedData = eventSchema.safeParse({
-    eventName,
-    expenses,
+    expenseName,
+    expenseAmount,
   });
 
   if (!validatedData.success) {
@@ -207,6 +207,19 @@ export async function updateExpense(previousData: unknown, formData: FormData) {
   const expenseId = formData.get("id") as string;
   const eventId = formData.get("eventId") as string;
 
+  const validatedData = expenseSchema.safeParse({
+    name: newExpenseName,
+    amount: newExpenseAmount,
+  });
+
+  if (!validatedData.success) {
+    return {
+      success: false,
+      fieldErrors: validatedData.error.flatten().fieldErrors,
+      fieldData: { newExpenseName, newExpenseAmount },
+    };
+  }
+
   try {
     await db.expense.update({
       where: {
@@ -227,32 +240,48 @@ export async function updateExpense(previousData: unknown, formData: FormData) {
 
 //Update Member server action
 export async function updateMember(previousData: unknown, formData: FormData) {
-  const firstName = formData.get("firstName") as string;
-  const lastName = formData.get("lastName") as string;
-  const phoneNumber = formData.get("phoneNumber") as string;
-  const flatNumber = formData.get("flatNumber") as string;
-  const birthday = formData.get("birthday") as string;
-  const anniversary = formData.get("anniversary") as string;
-  const memberId = formData.get("id") as string;
+  const id = formData.get("id") as string;
+  const newFirstName = formData.get("firstName") as string;
+  const newLastName = formData.get("lastName") as string;
+  const newPhoneNumber = formData.get("phoneNumber") as string;
+  const newFlatNumber = formData.get("flat") as string;
+  const newBirthday = formData.get("birthday") as string;
+  const newAnniversary = formData.get("anniversary") as string;
+
+  const validatedData = memberSchema.safeParse({
+    id,
+    firstName: newFirstName,
+    lastName: newLastName,
+    phoneNumber: newPhoneNumber,
+    flat: newFlatNumber,
+    birthday: newBirthday,
+    anniversary: newAnniversary,
+  });
+
+  if (!validatedData.success) {
+    return {
+      success: false,
+      fieldErrors: validatedData.error.flatten().fieldErrors,
+    };
+  }
 
   try {
     await db.member.update({
       where: {
-        id: memberId,
+        id: id,
       },
       data: {
-        firstName,
-        lastName,
-        phoneNumber,
-        flatNumber,
-        birthday: new Date(birthday),
-        anniversary: new Date(anniversary),
+        firstName: newFirstName,
+        lastName: newLastName,
+        phoneNumber: newPhoneNumber,
+        flatNumber: newFlatNumber,
+        birthday: new Date(newBirthday),
+        anniversary: new Date(newAnniversary),
       },
     });
-    revalidatePath("/members"); // Revalidate the members page to reflect changes
+    revalidatePath("/members");
     return { success: true };
   } catch (e) {
     console.log(e);
-    return { success: false, errors: "Could not update member" };
   }
 }

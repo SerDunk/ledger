@@ -55,43 +55,65 @@ export default function EditableMember({ member }: { member: Member }) {
                   name="lastName"
                   className="border rounded px-2 py-1 w-36"
                 />
+                {data?.fieldErrors?.firstName && (
+                  <p className="text-red-500">{data.fieldErrors.firstName}</p>
+                )}
               </div>
             </div>
             <div className="flex gap-2">
               <span className="font-semibold">Phone Number : </span>
-              <input
-                type="text"
-                defaultValue={member.phoneNumber}
-                name="phoneNumber"
-                className="border rounded px-2 py-1 w-36"
-              />
+              <div className="flex flex-col">
+                <input
+                  type="text"
+                  defaultValue={member.phoneNumber}
+                  name="phoneNumber"
+                  className="border rounded px-2 py-1 w-36"
+                />
+                {data?.fieldErrors?.phoneNumber && (
+                  <p className="text-red-500">{data.fieldErrors.phoneNumber}</p>
+                )}
+              </div>
             </div>
             <div className="flex gap-2">
               <span className="font-semibold">Flat Number : </span>
-              <input
-                type="text"
-                defaultValue={member.flatNumber}
-                name="flatNumber"
-                className="border rounded px-2 py-1 w-36"
-              />
+              <div className="flex flex-col">
+                <input
+                  defaultValue={member.flatNumber}
+                  name="flat"
+                  className="border rounded px-2 py-1 w-36"
+                />
+                {data?.fieldErrors?.flat && (
+                  <p className="text-red-500">{data.fieldErrors.flat}</p>
+                )}
+              </div>
             </div>
             <div className="flex gap-2">
               <span className="font-semibold">Birthday : </span>
-              <input
-                type="date"
-                defaultValue={member.birthday.toISOString().split("T")[0]}
-                name="birthday"
-                className="border rounded px-2 py-1 w-36"
-              />
+              <div className="flex flex-col">
+                <input
+                  type="date"
+                  defaultValue={member.birthday.toISOString().split("T")[0]}
+                  name="birthday"
+                  className="border rounded px-2 py-1 w-36"
+                />
+                {data?.fieldErrors?.birthday && (
+                  <p className="text-red-500">{data.fieldErrors.birthday}</p>
+                )}
+              </div>
             </div>
             <div className="flex gap-2">
               <span className="font-semibold">Anniversary : </span>
-              <input
-                type="date"
-                defaultValue={member.anniversary.toISOString().split("T")[0]}
-                name="anniversary"
-                className="border rounded px-2 py-1 w-36"
-              />
+              <div className="flex flex-col">
+                <input
+                  type="date"
+                  defaultValue={member.anniversary.toISOString().split("T")[0]}
+                  name="anniversary"
+                  className="border rounded px-2 py-1 w-36"
+                />
+                {data?.fieldErrors?.anniversary && (
+                  <p className="text-red-500">{data.fieldErrors.anniversary}</p>
+                )}
+              </div>
             </div>
           </div>
           <div className="flex gap-2">

@@ -12,11 +12,10 @@ export const memberSchema = z
       .string()
       .length(3, "Flat number is invalid")
       .nonempty("Flat number is required"),
-    dateOfBirth: z.string().nonempty("Date of birth is required"),
+    birthday: z.string().nonempty("Date of birth is required"),
     anniversary: z.string().nonempty("Anniversary is required"),
-    isMember: z.boolean().default(false),
   })
-  .refine((member) => member.anniversary > member.dateOfBirth, {
+  .refine((member) => member.anniversary > member.birthday, {
     message: "Anniversary should be after date of birth",
     path: ["anniversary"],
   });
@@ -29,4 +28,14 @@ export const eventSchema = z.object({
       amount: z.number().nonnegative("Amount should be positive"),
     })
   ),
+});
+
+export const expenseSchema = z.object({
+  name: z.string().nonempty("Expense name is required"),
+  amount: z
+    .string()
+    .refine(
+      (val) => !isNaN(Number(val)) && Number(val) >= 0,
+      "Amount should be a positive number"
+    ),
 });

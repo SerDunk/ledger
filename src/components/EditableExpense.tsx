@@ -43,12 +43,18 @@ export default function EditableExpense({ expense }: { expense: Expense }) {
               name="name"
               className="border rounded px-2 py-1 w-36"
             />
+            {data?.fieldErrors?.name && (
+              <p className="text-red-500">{data.fieldErrors.name}</p>
+            )}
             <input
               type="number"
               defaultValue={expense.amount || 0}
               name="amount"
               className="border rounded px-2 py-1 w-16"
             />
+            {data?.fieldErrors?.name && (
+              <p className="text-red-500">{data.fieldErrors.amount}</p>
+            )}
           </div>
 
           <div className="flex gap-2">
