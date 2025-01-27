@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import MemberCollapsible from "./MemberCollapsible";
+import SearchableMemberList from "./SearchableMemberList";
 
 export type Member = {
   id: string;
@@ -16,16 +16,5 @@ export type Member = {
 
 export default async function MemberList() {
   const members: Member[] = await db.member.findMany();
-  const memberships = members.filter((member) => member.isMember === true);
-
-  return (
-    <div>
-      <div>
-        <h1 className="text-xl font-bold text-pink-red mb-4">
-          Total Memberships: {memberships.length}
-        </h1>
-      </div>
-      <MemberCollapsible members={members} />
-    </div>
-  );
+  return <SearchableMemberList members={members} />;
 }

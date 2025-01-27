@@ -121,8 +121,8 @@ export async function addEventAndExpense(
   }));
 
   const validatedData = eventSchema.safeParse({
-    expenseName,
-    expenseAmount,
+    eventName,
+    expenses,
   });
 
   if (!validatedData.success) {

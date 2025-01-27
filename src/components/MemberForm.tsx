@@ -1,21 +1,21 @@
 "use client";
 
 import { addMember } from "@/actions/actions";
-import SearchBar from "@/components/SearchBar";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PlusIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useActionState } from "react";
 import { Toaster, toast } from "sonner";
 
-export default function Members() {
-  const [open, setOpen] = useState<boolean>(false);
+export default function MemberForm({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [data, action, isPending] = useActionState(addMember, undefined);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -43,10 +43,6 @@ export default function Members() {
   return (
     <div className="flex flex-col items-center gap-2 py-4 relative">
       <Toaster />
-      <div>
-        <h1>Members List</h1>
-      </div>
-
       {open && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
@@ -185,13 +181,6 @@ export default function Members() {
             </Button>
           </div>
         </form>
-      </div>
-
-      <div className="flex gap-4">
-        <SearchBar />
-        <Button onClick={handleClick}>
-          <PlusIcon className="text-white" />
-        </Button>
       </div>
     </div>
   );
