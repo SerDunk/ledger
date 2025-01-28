@@ -58,7 +58,7 @@ export default function MemberForm({
       >
         <form
           action={action}
-          className="flex flex-col gap-4 bg-white p-6 rounded-md w-full max-w-sm shadow-lg transform transition-transform duration-300"
+          className="flex flex-col gap-4 bg-white p-6 rounded-md w-full max-w-sm shadow-xl transform transition-transform duration-300"
           onClick={(e) => e.stopPropagation()}
         >
           <div>

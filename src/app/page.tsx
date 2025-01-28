@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { playfairDisplay } from "./layout";
-import { workSans } from "./layout";
+import { playfairDisplay, workSans } from "../../public/fonts";
 
 export default function Home() {
   return (
