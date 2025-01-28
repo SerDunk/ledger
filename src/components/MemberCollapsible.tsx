@@ -18,14 +18,15 @@ import EditableMember from "./EditableMember";
 import { Switch } from "./ui/switch";
 import { deleteMember, toggleMembership } from "@/actions/actions";
 import { Member } from "./MemberList";
+import { workSans } from "../../public/fonts";
 
 export default function MemberCollapsible({ members }: { members: Member[] }) {
   return (
     <div>
       {members.map((member) => (
-        <Collapsible key={member.id} className="mb-2">
+        <Collapsible key={member.id} className={`mb-2 ${workSans.className}`}>
           <CollapsibleTrigger className="w-full" asChild>
-            <div className="flex justify-between items-center bg-slate-400 text-white p-2 rounded-md">
+            <div className="flex justify-between items-center bg-gray text-white p-2 rounded-md">
               <div className="flex gap-4 items-center w-full text-left">
                 <Dialog>
                   <DialogTrigger>

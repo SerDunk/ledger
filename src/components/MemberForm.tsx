@@ -42,7 +42,7 @@ export default function MemberForm({
   }, [open]);
 
   return (
-    <div className="flex flex-col items-center gap-2 py-4 relative">
+    <div className="flex flex-col items-center gap-2 py-2 relative">
       <Toaster />
       {open && (
         <div
