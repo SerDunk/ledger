@@ -5,6 +5,7 @@ import { updateExpense, deleteExpense } from "@/actions/actions";
 import { X, Pencil, Check } from "lucide-react";
 import { Button } from "./ui/button";
 import { useActionState } from "react";
+import { workSans } from "../../public/fonts";
 
 type Expense = {
   name: string;
@@ -28,7 +29,9 @@ export default function EditableExpense({ expense }: { expense: Expense }) {
   }, [data]);
 
   return (
-    <li className="flex justify-between px-8 p-2 bg-red-200 text-lg w-full">
+    <li
+      className={`flex justify-between px-8 p-2  text-lg w-full ${workSans.className}`}
+    >
       {isEditing ? (
         <form
           action={action}
@@ -75,23 +78,22 @@ export default function EditableExpense({ expense }: { expense: Expense }) {
           </div>
         </form>
       ) : (
-        <div className="flex gap-4 w-full items-center justify-between">
+        <div className="flex gap-4 w-full items-center justify-between border-b-2 py-2 border-gray py-1">
           <form action={deleteExpense}>
             <input type="hidden" name="id" value={expense.id} />
             <Button variant="ghost">
               <X className="h-4 w-4 text-red-500 text-center" />
             </Button>
           </form>
-          <div className="flex justify-between w-60">
+          <div className="flex justify-between w-60 ">
             <span>{expense.name}</span>
             <p className="text-left w-16">{expense.amount}</p>
           </div>
           <Button
-            variant="ghost"
             onClick={() => setIsEditing(true)}
-            className="self-end"
+            className="self-end bg-gray"
           >
-            <Pencil className="h-4 w-4 text-blue-500" />
+            <Pencil className="h-2 w-2 text-white " />
           </Button>
         </div>
       )}

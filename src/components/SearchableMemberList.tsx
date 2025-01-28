@@ -56,7 +56,7 @@ export default function SearchableMemberList({
       <div className="flex justify-between mb-4 gap-4 py-2 w-full">
         <SearchBar search={search} setSearch={setSearch} />
         <div className="self-center">
-          <Button className="bg-gray" onClick={handleClick}>
+          <Button className="bg-black" onClick={handleClick}>
             <PlusIcon className="text-white" />
           </Button>
         </div>

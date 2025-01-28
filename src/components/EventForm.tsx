@@ -7,6 +7,7 @@ import { Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { Toaster, toast } from "sonner";
+import { workSans } from "../../public/fonts";
 
 export type Expense = {
   name: string;
@@ -45,6 +46,14 @@ export default function EventForm() {
   };
 
   useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [open]);
+
+  useEffect(() => {
     if (data) {
       if (data.success) {
         setOpen(false);
@@ -56,14 +65,19 @@ export default function EventForm() {
   }, [data]);
 
   return (
-    <div>
+    <div className={`${workSans.className}`}>
       <Toaster />
-      <Button onClick={handleClick}>Add</Button>
+      <Button
+        onClick={handleClick}
+        className="w-full bg-black rounded-md font-semibold"
+      >
+        Add Event
+      </Button>
       {open && (
-        <div className="fixed flex justify-center items-center mb-40 inset-0">
+        <div className="fixed flex justify-center items-center mb-40 inset-0 bg-opacity-50 bg-black h-full">
           <form
             action={action}
-            className="flex flex-col gap-2 bg-white p-6 rounded-md w-full max-w-sm shadow-lg transform transition-transform duration-300"
+            className="flex flex-col gap-2 bg-white p-6 border-2 border-gray rounded-md w-full max-w-sm shadow-lg transform transition-transform duration-300"
           >
             <div className="flex justify-between items-center gap-2 p-2">
               <Input

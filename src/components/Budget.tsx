@@ -4,6 +4,7 @@ import db from "@/lib/db";
 import { type Member } from "./MemberList";
 import { totalSum } from "@/actions/actions";
 import { cn } from "@/lib/utils";
+import { workSans } from "../../public/fonts";
 
 const MEMBERSHIP_FEE: number = 1500;
 
@@ -18,11 +19,11 @@ export default async function Budget() {
   const remainingBudget = Budget - Expense;
 
   return (
-    <div className="flex justify-center items-center p-7 border-b-2 border-slate-400">
+    <div className="flex justify-center items-center pt-6 pb-4">
       <div>
         <h1
           className={cn(
-            "text-5xl font-bold text-green-600",
+            `text-6xl font-bold  ${workSans.className}`,
             remainingBudget >= 0 ? "text-green-500" : "text-red-500"
           )}
         >

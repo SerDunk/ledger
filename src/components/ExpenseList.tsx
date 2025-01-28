@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 
 import EditableExpense from "./EditableExpense";
+import { workSans } from "../../public/fonts";
 
 export default async function ExpenseList() {
   const events = await db.event.findMany({
@@ -31,7 +32,7 @@ export default async function ExpenseList() {
         return (
           <Collapsible key={event.id}>
             <CollapsibleTrigger className="w-full mt-2" asChild>
-              <div className="flex justify-between items-center bg-slate-400 text-white p-2">
+              <div className="flex justify-between items-center bg-gray rounded-md text-white p-2">
                 <div className="flex gap-4 items-center w-full  text-left">
                   <Dialog>
                     <DialogTrigger>
@@ -39,7 +40,7 @@ export default async function ExpenseList() {
                         <X className="w-4 h-4 text-red-500" />
                       </span>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent className={`${workSans.className}`}>
                       <DialogHeader>
                         <DialogTitle>Are you sure?</DialogTitle>
                         <DialogDescription>
@@ -64,9 +65,13 @@ export default async function ExpenseList() {
                       </div>
                     </DialogContent>
                   </Dialog>
-                  <div className="flex justify-around items-center w-full">
-                    <h1 className="text-2xl w-40">{event.name}</h1>
-                    <div>{event.total}</div>
+                  <div className="flex justify-around items-center font-semibold w-full">
+                    <h1 className={`text-lg w-40 ${workSans.className}`}>
+                      {event.name}
+                    </h1>
+                    <div className={`text-lg ${workSans.className} `}>
+                      {event.total}
+                    </div>
                   </div>
                 </div>
                 <div>

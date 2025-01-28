@@ -32,7 +32,7 @@ export default function EditableMember({ member }: { member: Member }) {
   }, [data]);
 
   return (
-    <li className="flex justify-between p-2 bg-blue-200 text-lg w-full">
+    <li className="flex justify-between p-6 text-[16px] w-full">
       {isEditing ? (
         <form
           action={action}
@@ -134,39 +134,38 @@ export default function EditableMember({ member }: { member: Member }) {
           </div>
         </form>
       ) : (
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between w-full gap-6 text-[16px]">
           <div className="flex flex-col gap-4 justify-between w-full">
-            <div className="flex gap-2">
+            <div className="flex gap-2 border-b-2 py-1">
               <span className="font-semibold">Name :</span>
-              <div className="flex gap-1">
+              <div className="flex gap-1 ">
                 <span>{member.firstName}</span>
                 <span>{member.lastName}</span>
               </div>
             </div>
-            <div>
+            <div className="border-b-2 py-1">
               <span className="font-semibold">Phone Number : </span>
               <span>{member.phoneNumber}</span>
             </div>
-            <div>
+            <div className="border-b-2 py-1">
               <span className="font-semibold">Flat Number : </span>
               <span>{member.flatNumber}</span>
             </div>
-            <div>
+            <div className="border-b-2 py-1">
               <span className="font-semibold">Birthday : </span>
               <span>{member.birthday.toDateString()}</span>
             </div>
-            <div>
+            <div className="border-b-2 py-1">
               <span className="font-semibold">Anniversary : </span>
               <span>{member.anniversary.toDateString()}</span>
             </div>
           </div>
           <div className="self-center">
             <Button
-              variant="ghost"
               onClick={() => setIsEditing(true)}
-              className="self-end"
+              className="self-end bg-gray"
             >
-              <Pencil className="h-4 w-4 text-blue-500" />
+              <Pencil className="h-4 w-4 text-white" />
             </Button>
           </div>
         </div>
