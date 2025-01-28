@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import Container from "@/components/Container";
 
@@ -16,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        <Container>{children}</Container>
+        <ClerkProvider>
+          <Container>{children}</Container>
+        </ClerkProvider>
       </body>
     </html>
   );
