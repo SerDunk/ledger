@@ -30,6 +30,7 @@ export default function MemberForm({
         toast.error(data.message);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
@@ -174,7 +175,8 @@ export default function MemberForm({
               Submit
             </Button>
             <Button
-              onClick={handleClose}
+              type="button"
+              onClick={() => handleClose()}
               className="bg-red-500 text-white w-full"
             >
               Cancel

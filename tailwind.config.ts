@@ -12,7 +12,7 @@ export default {
       colors: {
         pink: "#FFCCE1",
         cream: "#FFFDF0",
-        gray: "#F2F9FF",
+        gray: "#393E46",
         "pink-red": "#F72C5B",
       },
       keyframes: {
