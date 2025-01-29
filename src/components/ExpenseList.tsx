@@ -28,6 +28,13 @@ export default async function ExpenseList() {
 
   return (
     <div>
+      {events.length == 0 && (
+        <div
+          className={`text-center mt-40 text-gray flex justify-center items-center ${workSans.className}`}
+        >
+          <p>No events found</p>
+        </div>
+      )}
       {events.map((event) => {
         return (
           <Collapsible key={event.id}>

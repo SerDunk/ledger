@@ -23,6 +23,11 @@ import { workSans } from "../../public/fonts";
 export default function MemberCollapsible({ members }: { members: Member[] }) {
   return (
     <div>
+      {members.length == 0 && (
+        <div className={`text-center text-gray mt-40 ${workSans.className}`}>
+          <p>No members found</p>
+        </div>
+      )}
       {members.map((member) => (
         <Collapsible key={member.id} className={`mb-2 ${workSans.className}`}>
           <CollapsibleTrigger className="w-full" asChild>
