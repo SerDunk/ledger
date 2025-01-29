@@ -13,18 +13,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Member{
-  id String @id @default(uuid())
-  firstName String
-  lastName String
-  phoneNumber String @unique
-  flatNumber String
-  birthday DateTime
-  anniversary DateTime
-  isMember Boolean @default(false)
+model User {
+  userId   String  @id 
+  name     String
+  email    String  
+  memberId String  @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  member   Member  @relation(fields: [memberId], references: [id]) 
 }
+
+model Member {
+  id          String  @id @default(uuid())
+  firstName   String
+  lastName    String
+  phoneNumber String  @unique
+  flatNumber  String
+  birthday    DateTime
+  anniversary DateTime
+  admin       Boolean  @default(false)
+  isMember    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User?    @relation() 
+}
+
+
 
 model Event{
   id String @id @default(uuid())
