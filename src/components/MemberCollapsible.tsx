@@ -16,7 +16,7 @@ import {
 import { X, ChevronDown } from "lucide-react";
 import EditableMember from "./EditableMember";
 import { Switch } from "./ui/switch";
-import { deleteMember, toggleMembership } from "@/actions/actions";
+import { deleteMember, toggleMembership } from "@/app/(actions)/actions";
 import { Member } from "./MemberList";
 import { workSans } from "../../public/fonts";
 

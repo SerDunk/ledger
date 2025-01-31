@@ -1,6 +1,6 @@
 "use client";
 
-import { addMember } from "@/actions/actions";
+import { addMember } from "@/app/(actions)/actions";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

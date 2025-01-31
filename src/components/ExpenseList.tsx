@@ -1,4 +1,4 @@
-import { deleteEvent } from "@/actions/actions";
+import { deleteEvent } from "@/app/(actions)/actions";
 import {
   Collapsible,
   CollapsibleContent,

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { updateExpense, deleteExpense } from "@/actions/actions";
+import { updateExpense, deleteExpense } from "@/app/(actions)/actions";
 import { X, Pencil, Check } from "lucide-react";
 import { Button } from "./ui/button";
 import { useActionState } from "react";
