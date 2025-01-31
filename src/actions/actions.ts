@@ -6,10 +6,10 @@ import { eventSchema, memberSchema, expenseSchema } from "@/schema/schema";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
+const user = await auth();
+
 //Add member to database
 export async function addMember(previousData: unknown, formData: FormData) {
-  const user = await auth();
-
   if (!user.userId) {
     redirect("/sign-in");
   }
@@ -79,8 +79,6 @@ export async function addMember(previousData: unknown, formData: FormData) {
 
 //Delete member from database
 export async function deleteMember(formData: FormData) {
-  const user = await auth();
-
   if (!user.userId) {
     redirect("/sign-in");
   }
@@ -101,8 +99,6 @@ export async function deleteMember(formData: FormData) {
 
 //Toggles Membership
 export async function toggleMembership(formData: FormData) {
-  const user = await auth();
-
   if (!user.userId) {
     redirect("/sign-in");
   }
@@ -130,8 +126,6 @@ export async function addEventAndExpense(
   previousData: unknown,
   formData: FormData
 ) {
-  const user = await auth();
-
   if (!user.userId) {
     redirect("/sign-in");
   }
@@ -180,8 +174,6 @@ export async function addEventAndExpense(
 
 //Delete event with expenses from database
 export async function deleteEvent(formData: FormData) {
-  const user = await auth();
-
   if (!user.userId) {
     redirect("/sign-in");
   }
@@ -208,8 +200,6 @@ export async function deleteEvent(formData: FormData) {
 
 //Delete expenses from database
 export async function deleteExpense(formData: FormData) {
-  const user = await auth();
-
   if (!user.userId) {
     redirect("/sign-in");
   }
@@ -230,8 +220,6 @@ export async function deleteExpense(formData: FormData) {
 
 //Calculating total sum of each event from database
 export async function totalSum() {
-  const user = await auth();
-
   if (!user.userId) {
     redirect("/sign-in");
   }
@@ -246,8 +234,6 @@ export async function totalSum() {
 
 //Update the expense amount and name
 export async function updateExpense(previousData: unknown, formData: FormData) {
-  const user = await auth();
-
   if (!user.userId) {
     redirect("/sign-in");
   }
@@ -289,8 +275,6 @@ export async function updateExpense(previousData: unknown, formData: FormData) {
 
 //Update Member server action
 export async function updateMember(previousData: unknown, formData: FormData) {
-  const user = await auth();
-
   if (!user.userId) {
     redirect("/sign-in");
   }
