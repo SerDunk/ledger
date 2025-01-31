@@ -5,7 +5,7 @@ import { updateExpense, deleteExpense } from "@/app/(actions)/actions";
 import { X, Pencil, Check } from "lucide-react";
 import { Button } from "./ui/button";
 import { useActionState } from "react";
-import { workSans } from "../../public/fonts";
+import { workSans } from "../../../public/fonts";
 
 type Expense = {
   name: string;
