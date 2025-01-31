@@ -1,3 +1,5 @@
+"use server";
+
 import db from "@/lib/db";
 import SearchableMemberList from "./SearchableMemberList";
 import { auth } from "@clerk/nextjs/server";

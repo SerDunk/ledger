@@ -1,3 +1,5 @@
+"use server";
+
 import { deleteEvent } from "@/app/(actions)/actions";
 import {
   Collapsible,
