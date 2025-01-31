@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import MemberCollapsible from "./MemberCollapsible";
-import SearchBar from "@/(components)/SearchBar";
+import SearchBar from "@/components/SearchBar";
 import MemberForm from "./MemberForm";
 import { Button } from "./ui/button";
 import { PlusIcon } from "lucide-react";

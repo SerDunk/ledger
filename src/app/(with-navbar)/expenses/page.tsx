@@ -1,6 +1,6 @@
-import Budget from "@/(components)/Budget";
-import ExpenseList from "@/(components)/ExpenseList";
-import EventForm from "@/(components)/EventForm";
+import Budget from "@/components/Budget";
+import ExpenseList from "@/components/ExpenseList";
+import EventForm from "@/components/EventForm";
 
 export default function Expenses() {
   return (

@@ -4,7 +4,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/(components)/ui/collapsible";
+} from "@/components/ui/collapsible";
 import {
   Dialog,
   DialogContent,
@@ -12,11 +12,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/(components)/ui/dialog";
+} from "@/components/ui/dialog";
 import { X, ChevronDown } from "lucide-react";
 import EditableMember from "./EditableMember";
 import { Switch } from "./ui/switch";
-import { deleteMember, toggleMembership } from "@/(actions)/actions";
+import { deleteMember, toggleMembership } from "@/actions/actions";
 import { Member } from "./MemberList";
 import { workSans } from "../../public/fonts";
 

@@ -1,11 +1,11 @@
 "use server";
 
-import { deleteEvent } from "@/(actions)/actions";
+import { deleteEvent } from "@/actions/actions";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/(components)/ui/collapsible";
+} from "@/components/ui/collapsible";
 import db from "@/lib/db";
 import { ChevronDown } from "lucide-react";
 import { X } from "lucide-react";
@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/(components)/ui/dialog";
+} from "@/components/ui/dialog";
 
 import EditableExpense from "./EditableExpense";
 import { workSans } from "../../public/fonts";

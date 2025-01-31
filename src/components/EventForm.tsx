@@ -1,8 +1,8 @@
 "use client";
 
-import { addEventAndExpense } from "@/(actions)/actions";
-import { Button } from "@/(components)/ui/button";
-import { Input } from "@/(components)/ui/input";
+import { addEventAndExpense } from "@/actions/actions";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
