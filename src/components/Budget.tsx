@@ -5,11 +5,19 @@ import { type Member } from "./MemberList";
 import { totalSum } from "@/actions/actions";
 import { cn } from "@/lib/utils";
 import { workSans } from "../../public/fonts";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 const MEMBERSHIP_FEE: number = 1500;
 
 export default async function Budget() {
-  const members: Member[] = await db.member.findMany();
+  const user = await auth();
+  if (!user.userId) redirect("/sign-in");
+  const members: Member[] = await db.member.findMany({
+    where: {
+      userId: user.userId,
+    },
+  });
   const memberships: Member[] = members.filter(
     (member) => member.isMember === true
   );

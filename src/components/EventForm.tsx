@@ -43,6 +43,7 @@ export default function EventForm() {
 
   const closeForm = () => {
     setOpen(false);
+    setExpenses(null);
   };
 
   useEffect(() => {
@@ -58,6 +59,7 @@ export default function EventForm() {
       if (data.success) {
         setOpen(false);
         toast.success(data.message);
+        setExpenses(null);
       } else {
         toast.error(data.message);
       }

@@ -18,7 +18,7 @@ export default function Home() {
         </p>
       </div>
       <div>
-        <Link href="/sign-in">
+        <Link href="/dashboard">
           <Button
             className={`p-6 bg-gray hover:bg-white hover:text-gray hover:duration-200 hover:ease-in hover:border-2 ${workSans.className}`}
           >

@@ -17,10 +17,10 @@ model User {
   userId   String  @id 
   name     String
   email    String  
-  memberId String  @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  member   Member  @relation(fields: [memberId], references: [id]) 
+  member Member[] @relation()
+  events Event[] @relation()
 }
 
 model Member {
@@ -33,10 +33,12 @@ model Member {
   anniversary DateTime
   admin       Boolean  @default(false)
   isMember    Boolean  @default(false)
+  userId      String  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  user        User?    @relation() 
+  user        User  @relation(fields: [userId], references: [userId])
 }
+
 
 
 
@@ -47,6 +49,8 @@ model Event{
   total Int @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  userId String
+  user User @relation(fields: [userId], references: [userId])
   }
 
 model Expense{

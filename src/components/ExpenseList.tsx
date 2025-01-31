@@ -18,9 +18,16 @@ import {
 
 import EditableExpense from "./EditableExpense";
 import { workSans } from "../../public/fonts";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export default async function ExpenseList() {
+  const user = await auth();
+  if (!user.userId) redirect("/sign-in");
   const events = await db.event.findMany({
+    where: {
+      userId: user.userId,
+    },
     include: {
       expenses: true,
     },
