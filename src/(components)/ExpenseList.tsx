@@ -1,11 +1,11 @@
 "use server";
 
-import { deleteEvent } from "@/app/(actions)/actions";
+import { deleteEvent } from "@/(actions)/actions";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/app/(components)/ui/collapsible";
+} from "@/(components)/ui/collapsible";
 import db from "@/lib/db";
 import { ChevronDown } from "lucide-react";
 import { X } from "lucide-react";
@@ -16,10 +16,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/app/(components)/ui/dialog";
+} from "@/(components)/ui/dialog";
 
 import EditableExpense from "./EditableExpense";
-import { workSans } from "../../../public/fonts";
+import { workSans } from "../../public/fonts";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 

@@ -2,9 +2,9 @@
 
 import db from "@/lib/db";
 import { type Member } from "./MemberList";
-import { totalSum } from "@/app/(actions)/actions";
+import { totalSum } from "@/(actions)/actions";
 import { cn } from "@/lib/utils";
-import { workSans } from "../../../public/fonts";
+import { workSans } from "../../public/fonts";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 

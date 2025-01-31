@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import MemberCollapsible from "./MemberCollapsible";
-import SearchBar from "@/app/(components)/SearchBar";
+import SearchBar from "@/(components)/SearchBar";
 import MemberForm from "./MemberForm";
 import { Button } from "./ui/button";
 import { PlusIcon } from "lucide-react";
-import { workSans } from "../../../public/fonts";
+import { workSans } from "../../public/fonts";
 
 export type Member = {
   id: string;

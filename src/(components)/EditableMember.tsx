@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { updateMember } from "@/app/(actions)/actions";
+import { updateMember } from "@/(actions)/actions";
 import { X, Pencil, Check } from "lucide-react";
 import { Button } from "./ui/button";
 import { useActionState } from "react";

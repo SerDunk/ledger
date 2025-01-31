@@ -1,13 +1,13 @@
 "use client";
 
-import { addEventAndExpense } from "@/app/(actions)/actions";
-import { Button } from "@/app/(components)/ui/button";
-import { Input } from "@/app/(components)/ui/input";
+import { addEventAndExpense } from "@/(actions)/actions";
+import { Button } from "@/(components)/ui/button";
+import { Input } from "@/(components)/ui/input";
 import { Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { Toaster, toast } from "sonner";
-import { workSans } from "../../../public/fonts";
+import { workSans } from "../../public/fonts";
 
 export type Expense = {
   name: string;
