@@ -2,8 +2,6 @@
 
 import db from "@/lib/db";
 import SearchableMemberList from "./SearchableMemberList";
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 
 export type Member = {
   id: string;
@@ -18,14 +16,10 @@ export type Member = {
   updatedAt: Date;
 };
 
-export default async function MemberList() {
-  const user = await auth();
-  if (!user.userId) {
-    redirect("/sign-in");
-  }
+export default async function MemberList({ id: userId }: { id: string }) {
   const members: Member[] = await db.member.findMany({
     where: {
-      userId: user.userId,
+      userId: userId,
     },
   });
   return <SearchableMemberList members={members} />;
