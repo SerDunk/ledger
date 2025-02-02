@@ -19,6 +19,7 @@ model User {
   email    String  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  shareableToken String @unique
   member Member[] @relation()
   events Event[] @relation()
 }
