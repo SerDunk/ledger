@@ -10,14 +10,14 @@ export default function SignInPage() {
         <SignIn.Root>
           <SignIn.Step
             name="start"
-            className="w-full flex-grow space-y-6 rounded-2xl bg-gray bg-[radial-gradient(circle_at_50%_0%,theme(colors.white/10%),transparent)] px-4 py-10 ring-1 ring-inset ring-gray sm:w-96 sm:px-8"
+            className="w-full flex-grow space-y-6 rounded-2xl bg-white bg-[radial-gradient(circle_at_50%_0%,theme(colors.white/10%),transparent)] px-4 py-10 ring-1 ring-inset ring-gray-600 sm:w-96 sm:px-8"
           >
-            <header className="text-center">
+            <header className="text-center text-gray">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 40 40"
-                className="mx-auto size-10"
+                className="mx-auto size-10 bg-gray"
               >
                 <mask
                   id="a"
@@ -34,15 +34,15 @@ export default function SignInPage() {
                   <path d="M27 3.5a1 1 0 1 0 0-2v2Zm0-2h-46v2h46v-2ZM25 8.5a1 1 0 1 0 0-2v2Zm0-2h-46v2h46v-2ZM23 13.5a1 1 0 1 0 0-2v2Zm0-2h-46v2h46v-2ZM21.5 18.5a1 1 0 1 0 0-2v2Zm0-2h-46v2h46v-2ZM20.5 23.5a1 1 0 1 0 0-2v2Zm0-2h-46v2h46v-2ZM22.5 28.5a1 1 0 1 0 0-2v2Zm0-2h-46v2h46v-2ZM25 33.5a1 1 0 1 0 0-2v2Zm0-2h-46v2h46v-2ZM27 38.5a1 1 0 1 0 0-2v2Zm0-2h-46v2h46v-2Z" />
                 </g>
               </svg>
-              <h1 className="mt-4 text-xl font-medium tracking-tight text-white">
-                Sign in to Clover
+              <h1 className="mt-4 text-xl font-medium tracking-tight text-gray">
+                Sign in to Ledger
               </h1>
             </header>
             <Clerk.GlobalError className="block text-sm text-red-400" />
             <div className="space-y-2">
               <Clerk.Connection
                 name="google"
-                className="flex w-full items-center justify-center gap-x-3 rounded-md bg-gray px-3.5 py-1.5 text-sm font-medium text-white shadow-[0_1px_0_0_theme(colors.white/5%)_inset,0_0_0_1px_theme(colors.white/2%)_inset] outline-none hover:bg-gradient-to-b hover:from-white/5 hover:to-white/5 focus-visible:outline-[1.5px] focus-visible:outline-offset-2 focus-visible:outline-white active:bg-gradient-to-b active:from-black/20 active:to-black/20 active:text-white/70"
+                className="flex w-full items-center justify-center gap-x-3 rounded-md bg-gray-600 px-3.5 py-1.5 text-sm font-medium text-gray shadow-[0_1px_0_0_theme(colors.white/5%)_inset,0_0_0_1px_theme(colors.white/2%)_inset] outline-none hover:bg-gradient-to-b hover:from-white/5 hover:to-white/5 focus-visible:outline-[1.5px] focus-visible:outline-offset-2 focus-visible:outline-gray active:bg-gradient-to-b active:from-black/20 active:to-black/20 active:text-gray/70"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ export default function SignInPage() {
               No account?{" "}
               <Clerk.Link
                 navigate="sign-up"
-                className="font-medium text-white decoration-white/20 underline-offset-4 outline-none hover:underline focus-visible:underline"
+                className="font-medium text-gray decoration-white/20 underline-offset-4 outline-none hover:underline focus-visible:underline"
               >
                 Create an account
               </Clerk.Link>

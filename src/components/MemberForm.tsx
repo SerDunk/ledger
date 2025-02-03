@@ -71,7 +71,7 @@ export default function MemberForm({
       >
         <form
           action={action}
-          className="flex flex-col gap-4 bg-white p-6 rounded-md w-full max-w-sm shadow-xl transform transition-transform duration-300"
+          className="flex flex-col gap-4 bg-white p-6  rounded-md w-full max-w-sm shadow-xl transform transition-transform duration-300"
           onClick={(e) => e.stopPropagation()}
         >
           <div>
@@ -81,7 +81,7 @@ export default function MemberForm({
               id="firstName"
               placeholder="First Name"
               defaultValue={data?.fieldData?.firstName}
-              className="w-full"
+              className="w-full shadow-black shadow-sm"
             />
             {errors?.firstName && (
               <div className="text-red-500 text-sm">{errors.firstName}</div>
@@ -95,7 +95,7 @@ export default function MemberForm({
               id="lastName"
               placeholder="Last Name"
               defaultValue={data?.fieldData?.lastName}
-              className="w-full"
+              className="w-full shadow-black shadow-sm"
             />
             {errors?.lastName && (
               <div className="text-red-500 text-sm">{errors.lastName}</div>
@@ -109,7 +109,7 @@ export default function MemberForm({
               id="phoneNumber"
               placeholder="Phone Number"
               defaultValue={data?.fieldData?.phoneNumber}
-              className="w-full"
+              className="w-full shadow-black shadow-sm"
             />
 
             {errors?.phoneNumber &&
@@ -129,7 +129,7 @@ export default function MemberForm({
               id="flat"
               placeholder="Flat Number"
               defaultValue={data?.fieldData?.flat}
-              className="w-full"
+              className="w-full shadow-black shadow-sm"
             />
             {errors?.flat &&
               errors.flat.map((error, index) => {
@@ -151,7 +151,7 @@ export default function MemberForm({
               id="birthday"
               placeholder="Date Of Birth"
               defaultValue={data?.fieldData?.birthday?.toString()}
-              className="w-full"
+              className="w-full shadow-black shadow-sm"
             />
             {errors?.birthday && (
               <div className="text-red-500 text-sm">{errors.birthday}</div>
@@ -171,7 +171,7 @@ export default function MemberForm({
               id="anniversary"
               placeholder="Anniversary"
               defaultValue={data?.fieldData?.anniversary?.toString()}
-              className="w-full"
+              className="w-full shadow-black shadow-sm"
             />
             {errors?.anniversary &&
               errors.anniversary.map((error, index) => {

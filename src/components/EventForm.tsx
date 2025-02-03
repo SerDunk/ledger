@@ -92,7 +92,7 @@ export default function EventForm() {
                 name="eventName"
                 id="eventName"
                 placeholder="Event Name"
-                className="w-full"
+                className="w-full shadow-black shadow-sm"
               />
               <div className="rounded bg-black text-center text-white p-1">
                 <Plus onClick={addField} />
@@ -119,14 +119,14 @@ export default function EventForm() {
                       name={`expenseName`}
                       id={`expenseName`}
                       placeholder="Name"
-                      className="w-[60%]"
+                      className="w-[60%] shadow-black shadow-sm"
                     />
                     <Input
                       type="number"
                       name={`expenseAmount`}
                       id={`expenseAmount`}
                       placeholder="Amount"
-                      className="w-[40%]"
+                      className="w-[40%] shadow-black shadow-sm"
                     />
                   </div>
                   <div

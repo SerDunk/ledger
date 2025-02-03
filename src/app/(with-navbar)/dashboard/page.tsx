@@ -32,7 +32,7 @@ export default async function Dashboard() {
     });
   }
 
-  const shareableLink = `localhost3000/member-view/${existingUser?.shareableToken}`;
+  const shareableLink = `/member-view/${existingUser?.shareableToken}`;
 
   return (
     <div className="flex flex-col py-6 items-center">
