@@ -13,7 +13,7 @@ type Member = {
   phoneNumber: string;
   flatNumber: string;
   birthday: Date;
-  anniversary: Date;
+  anniversary: Date | null;
   isMember: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -101,20 +101,26 @@ export default function EditableMember({ member }: { member: Member }) {
                 )}
               </div>
             </div>
-            <div className="flex gap-2">
-              <span className="font-semibold">Anniversary : </span>
-              <div className="flex flex-col">
-                <input
-                  type="date"
-                  defaultValue={member.anniversary.toISOString().split("T")[0]}
-                  name="anniversary"
-                  className="border rounded px-2 py-1 w-36"
-                />
-                {data?.fieldErrors?.anniversary && (
-                  <p className="text-red-500">{data.fieldErrors.anniversary}</p>
-                )}
+            {member.anniversary && (
+              <div className="flex gap-2">
+                <span className="font-semibold">Anniversary : </span>
+                <div className="flex flex-col">
+                  <input
+                    type="date"
+                    defaultValue={
+                      member.anniversary.toISOString().split("T")[0]
+                    }
+                    name="anniversary"
+                    className="border rounded px-2 py-1 w-36"
+                  />
+                  {data?.fieldErrors?.anniversary && (
+                    <p className="text-red-500">
+                      {data.fieldErrors.anniversary}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="flex gap-4">
             <Button

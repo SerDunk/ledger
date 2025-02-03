@@ -15,7 +15,7 @@ export type Member = {
   phoneNumber: string;
   flatNumber: string;
   birthday: Date;
-  anniversary: Date;
+  anniversary: Date | null;
   isMember: boolean;
   createdAt: Date;
   updatedAt: Date;

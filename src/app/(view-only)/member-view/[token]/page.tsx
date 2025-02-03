@@ -1,13 +1,13 @@
 import db from "@/lib/db";
 
-export default async function memberView({
-  params,
-}: {
-  params: { token: string };
-}) {
-  const { token } = params;
+type ViewProps = {
+  params: Promise<{ token: string }>;
+};
+
+export default async function memberView({ params }: ViewProps) {
+  const { token } = await params;
   if (!token) return <div>Unauthorized</div>;
-  const members = db.user.findMany({
+  const members = await db.user.findMany({
     where: {
       shareableToken: token,
     },
