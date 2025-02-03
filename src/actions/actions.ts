@@ -18,7 +18,7 @@ export async function addMember(previousData: unknown, formData: FormData) {
     phoneNumber: formData.get("phoneNumber") as string,
     flat: formData.get("flat") as string,
     birthday: formData.get("birthday") as string,
-    anniversary: formData.get("anniversary") as string,
+    anniversary: formData.get("anniversary") || undefined,
   };
 
   const validatedData = memberSchema.safeParse(unvalidatedData);
@@ -34,7 +34,7 @@ export async function addMember(previousData: unknown, formData: FormData) {
 
   const { firstName, lastName, phoneNumber, flat, birthday, anniversary } =
     validatedData.data;
-
+  console.log("Anniversary:", anniversary);
   try {
     const existingMember = await db.member.findUnique({
       where: {
@@ -59,7 +59,7 @@ export async function addMember(previousData: unknown, formData: FormData) {
         phoneNumber,
         flatNumber: flat,
         birthday: new Date(birthday),
-        anniversary: new Date(anniversary),
+        anniversary: anniversary ? new Date(anniversary) : null,
         userId: user.userId,
       },
     });

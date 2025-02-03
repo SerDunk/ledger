@@ -155,10 +155,12 @@ export default function EditableMember({ member }: { member: Member }) {
               <span className="font-semibold">Birthday : </span>
               <span>{member.birthday.toDateString()}</span>
             </div>
-            <div className="border-b-2 py-1">
-              <span className="font-semibold">Anniversary : </span>
-              <span>{member.anniversary.toDateString()}</span>
-            </div>
+            {member.anniversary && (
+              <div className="border-b-2 py-1">
+                <span className="font-semibold">Anniversary : </span>
+                <span>{member.anniversary.toDateString()}</span>
+              </div>
+            )}
           </div>
           <div className="self-center">
             <Button

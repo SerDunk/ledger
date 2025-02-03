@@ -13,12 +13,18 @@ export const memberSchema = z
       .length(3, "Flat number is invalid")
       .nonempty("Flat number is required"),
     birthday: z.string().nonempty("Date of birth is required"),
-    anniversary: z.string().nonempty("Anniversary is required"),
+    anniversary: z
+      .string()
+      .optional()
+      .transform((val) => (val === "" ? undefined : val)),
   })
-  .refine((member) => member.anniversary > member.birthday, {
-    message: "Anniversary should be after date of birth",
-    path: ["anniversary"],
-  });
+  .refine(
+    (member) => !member.anniversary || member.anniversary > member.birthday,
+    {
+      message: "Anniversary should be after date of birth",
+      path: ["anniversary"],
+    }
+  );
 
 export const eventSchema = z.object({
   eventName: z.string().nonempty("Event name is required"),

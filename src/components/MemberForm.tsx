@@ -54,8 +54,6 @@ export default function MemberForm({
     }
   }, [open]);
 
-  console.log(errors);
-
   return (
     <div className="flex flex-col items-center gap-2 py-2 relative">
       <Toaster />
@@ -165,7 +163,7 @@ export default function MemberForm({
               htmlFor="anniversary"
               className="text-sm text-slate-400 ml-1"
             >
-              Date of Anniversary
+              Date of Anniversary (Optional)
             </label>
             <Input
               type="date"
