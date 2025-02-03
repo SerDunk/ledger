@@ -4,7 +4,7 @@ import { addMember } from "@/actions/actions";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { Toaster, toast } from "sonner";
 
@@ -16,9 +16,21 @@ export default function MemberForm({
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [data, action, isPending] = useActionState(addMember, undefined);
+  const [errors, setErrors] = useState<
+    | {
+        firstName?: string[] | undefined;
+        lastName?: string[] | undefined;
+        phoneNumber?: string[] | undefined;
+        flat?: string[] | undefined;
+        birthday?: string[] | undefined;
+        anniversary?: string[] | undefined;
+      }
+    | undefined
+  >(undefined);
 
   const handleClose = () => {
     setOpen(false);
+    setErrors(undefined);
   };
 
   useEffect(() => {
@@ -28,6 +40,7 @@ export default function MemberForm({
         toast.success(data.message);
       } else {
         toast.error(data.message);
+        setErrors(data.fieldErrors);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -40,6 +53,8 @@ export default function MemberForm({
       document.body.style.overflow = "auto";
     }
   }, [open]);
+
+  console.log(errors);
 
   return (
     <div className="flex flex-col items-center gap-2 py-2 relative">
@@ -70,10 +85,8 @@ export default function MemberForm({
               defaultValue={data?.fieldData?.firstName}
               className="w-full"
             />
-            {data?.fieldErrors?.firstName && (
-              <div className="text-red-500 text-sm">
-                {data.fieldErrors.firstName}
-              </div>
+            {errors?.firstName && (
+              <div className="text-red-500 text-sm">{errors.firstName}</div>
             )}
           </div>
 
@@ -86,10 +99,8 @@ export default function MemberForm({
               defaultValue={data?.fieldData?.lastName}
               className="w-full"
             />
-            {data?.fieldErrors?.lastName && (
-              <div className="text-red-500 text-sm">
-                {data.fieldErrors.lastName}
-              </div>
+            {errors?.lastName && (
+              <div className="text-red-500 text-sm">{errors.lastName}</div>
             )}
           </div>
 
@@ -102,10 +113,9 @@ export default function MemberForm({
               defaultValue={data?.fieldData?.phoneNumber}
               className="w-full"
             />
-            {data?.fieldErrors?.phoneNumber && (
-              <div className="text-red-500 text-sm">
-                {data.fieldErrors.phoneNumber}
-              </div>
+
+            {errors?.phoneNumber && (
+              <div className="text-red-500 text-sm">{errors.phoneNumber}</div>
             )}
           </div>
 
@@ -118,10 +128,8 @@ export default function MemberForm({
               defaultValue={data?.fieldData?.flat}
               className="w-full"
             />
-            {data?.fieldErrors?.flat && (
-              <div className="text-red-500 text-sm">
-                {data.fieldErrors.flat}
-              </div>
+            {errors?.flat && (
+              <div className="text-red-500 text-sm">{errors.flat}</div>
             )}
           </div>
 
@@ -137,10 +145,8 @@ export default function MemberForm({
               defaultValue={data?.fieldData?.birthday?.toString()}
               className="w-full"
             />
-            {data?.fieldErrors?.birthday && (
-              <div className="text-red-500 text-sm">
-                {data.fieldErrors.birthday}
-              </div>
+            {errors?.birthday && (
+              <div className="text-red-500 text-sm">{errors.birthday}</div>
             )}
           </div>
 
@@ -159,10 +165,8 @@ export default function MemberForm({
               defaultValue={data?.fieldData?.anniversary?.toString()}
               className="w-full"
             />
-            {data?.fieldErrors?.anniversary && (
-              <div className="text-red-500 text-sm">
-                {data.fieldErrors.anniversary}
-              </div>
+            {errors?.anniversary && (
+              <div className="text-red-500 text-sm">{errors.anniversary}</div>
             )}
           </div>
 

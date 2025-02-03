@@ -21,6 +21,9 @@ export default function EventForm() {
     addEventAndExpense,
     undefined
   );
+  const [errors, setErrors] = useState<
+    { eventName?: string[]; expenses?: string[] } | undefined
+  >(undefined);
 
   const handleClick = () => {
     setOpen(!open);
@@ -44,6 +47,7 @@ export default function EventForm() {
   const closeForm = () => {
     setOpen(false);
     setExpenses(null);
+    setErrors(undefined);
   };
 
   useEffect(() => {
@@ -62,6 +66,7 @@ export default function EventForm() {
         setExpenses(null);
       } else {
         toast.error(data.message);
+        setErrors(data.fieldErrors);
       }
     }
   }, [data]);
@@ -93,10 +98,13 @@ export default function EventForm() {
                 <Plus onClick={addField} />
               </div>
             </div>
-            {data?.fieldErrors?.["eventName"] && (
+            {errors?.eventName && (
               <div className="text-red-500 text-sm px-2">
-                {data.fieldErrors?.["eventName"]}
+                {errors.eventName}
               </div>
+            )}
+            {errors?.expenses && (
+              <div className="text-red-500 text-sm px-2">{errors.expenses}</div>
             )}
 
             <div>
@@ -129,16 +137,6 @@ export default function EventForm() {
                   </div>
                 </div>
               ))}
-              {data?.fieldErrors &&
-                expenses?.map((_, index: number) => (
-                  <div key={index}>
-                    {data?.fieldErrors?.expenses?.[index] && (
-                      <div className="text-red-500 text-sm">
-                        {data?.fieldErrors?.expenses?.[index]}
-                      </div>
-                    )}
-                  </div>
-                ))}
             </div>
 
             <div className="flex gap-2 p-2">

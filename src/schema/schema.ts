@@ -22,12 +22,14 @@ export const memberSchema = z
 
 export const eventSchema = z.object({
   eventName: z.string().nonempty("Event name is required"),
-  expenses: z.array(
-    z.object({
-      name: z.string().nonempty("Expense name is required"),
-      amount: z.number().nonnegative("Amount should be positive"),
-    })
-  ),
+  expenses: z
+    .array(
+      z.object({
+        name: z.string().nonempty("Expense name is required"),
+        amount: z.number().nonnegative("Amount should be positive"),
+      })
+    )
+    .min(1, "Atleast one expense is required"),
 });
 
 export const expenseSchema = z.object({
