@@ -114,9 +114,14 @@ export default function MemberForm({
               className="w-full"
             />
 
-            {errors?.phoneNumber && (
-              <div className="text-red-500 text-sm">{errors.phoneNumber}</div>
-            )}
+            {errors?.phoneNumber &&
+              errors.phoneNumber.map((error, index) => {
+                return (
+                  <div key={index} className="text-red-500 text-sm">
+                    {error}
+                  </div>
+                );
+              })}
           </div>
 
           <div>
@@ -128,9 +133,14 @@ export default function MemberForm({
               defaultValue={data?.fieldData?.flat}
               className="w-full"
             />
-            {errors?.flat && (
-              <div className="text-red-500 text-sm">{errors.flat}</div>
-            )}
+            {errors?.flat &&
+              errors.flat.map((error, index) => {
+                return (
+                  <div key={index} className="text-red-500 text-sm">
+                    {error}
+                  </div>
+                );
+              })}
           </div>
 
           <div>
@@ -165,9 +175,14 @@ export default function MemberForm({
               defaultValue={data?.fieldData?.anniversary?.toString()}
               className="w-full"
             />
-            {errors?.anniversary && (
-              <div className="text-red-500 text-sm">{errors.anniversary}</div>
-            )}
+            {errors?.anniversary &&
+              errors.anniversary.map((error, index) => {
+                return (
+                  <div key={index} className="text-red-500 text-sm">
+                    {error}
+                  </div>
+                );
+              })}
           </div>
 
           <div className="flex gap-2">
