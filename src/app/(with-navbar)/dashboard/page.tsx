@@ -5,6 +5,7 @@ import { workSans } from "../../../../public/fonts";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import crypto from "crypto";
+import { DashboardGrid } from "@/components/DashboardGrid";
 
 export default async function Dashboard() {
   const { userId } = await auth();
@@ -47,7 +48,10 @@ export default async function Dashboard() {
         </div>
       </div>
 
-      <div className="flex mt-4">
+      <div className="py-6">
+        <DashboardGrid />
+      </div>
+      <div className="flex">
         <div>Shareable Link:</div>
         <div className="ml-2">
           <Link href={shareableLink} className="text-blue-500 underline">
