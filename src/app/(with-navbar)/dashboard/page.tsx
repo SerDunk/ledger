@@ -3,7 +3,6 @@ import { UserButton } from "@clerk/nextjs";
 import db from "@/lib/db";
 import { workSans } from "../../../../public/fonts";
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import crypto from "crypto";
 import { DashboardGrid } from "@/components/DashboardGrid";
 
@@ -33,8 +32,6 @@ export default async function Dashboard() {
     });
   }
 
-  const shareableLink = `/member-view/${existingUser?.shareableToken}`;
-
   return (
     <div className="flex flex-col py-6 items-center">
       <div className="flex w-full justify-between">
@@ -48,16 +45,8 @@ export default async function Dashboard() {
         </div>
       </div>
 
-      <div className="py-6">
+      <div className="py-4">
         <DashboardGrid />
-      </div>
-      <div className="flex">
-        <div>Shareable Link:</div>
-        <div className="ml-2">
-          <Link href={shareableLink} className="text-blue-500 underline">
-            {shareableLink}
-          </Link>
-        </div>
       </div>
     </div>
   );

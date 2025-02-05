@@ -1,10 +1,9 @@
-import { GlobeIcon } from "@radix-ui/react-icons";
-import { User, IndianRupeeIcon } from "lucide-react";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import db from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { Member } from "./MemberList";
 import { totalSum } from "@/actions/actions";
+import ShareableLink from "./CopyLink";
 
 const MEMBERSHIP_FEE: number = 1500;
 
@@ -24,51 +23,59 @@ export async function DashboardGrid() {
   const Budget: number = MEMBERSHIP_FEE * memberships.length;
   const Expense = await totalSum();
 
+  const token = await db.user.findUnique({
+    where: {
+      userId: currUser.userId,
+    },
+    select: {
+      shareableToken: true,
+    },
+  });
+
+  const shareableLink = `/member-view/${token?.shareableToken}`;
+
   const remainingBudget = Budget - Expense;
 
   const features = [
     {
-      Icon: User,
       name: "Members",
       description: `Check your members details`,
       href: "/members",
       cta: "Learn more",
-      background: (
-        <div className="flex flex-col justify-center items-center w-full h-full p-6 mt-2  rounded-2xl  text-white">
-          <div className="text-6xl font-extrabold ">{members.length}</div>
-          <div className="uppercase text-sm font-semibold tracking-wide mt-2">
-            Total Members
+      main: (
+        <div className="h-full w-full flex flex-col">
+          <div className="text-4xl font-extrabold text-white">
+            {members.length}
           </div>
         </div>
       ),
+
       className: "",
     },
     {
-      Icon: IndianRupeeIcon,
       name: "Budget",
       description: "Analyse your event expenses.",
       href: "/expenses",
       cta: "Learn more",
-      background: (
-        <div className="flex flex-col justify-center items-center w-full h-full p-6  rounded-2xl  text-white">
-          <div className="text-5xl font-extrabold ">
+      main: (
+        <div className="h-full w-full flex flex-col">
+          <div className="text-white text-3xl font-extrabold">
             ₹ {remainingBudget.toLocaleString()}
-          </div>
-          <div className="uppercase text-sm font-semibold tracking-wide mt-2">
-            Remaining Budget
           </div>
         </div>
       ),
       className: "",
     },
     {
-      Icon: GlobeIcon,
       name: "Share",
-      description:
-        "Want to share data with your members? Do it with this link.",
+      description: "",
       href: "/",
       cta: "Learn more",
-      background: <div className="absolute -right-20 -top-20 opacity-60" />,
+      main: (
+        <div>
+          <ShareableLink shareableLink={shareableLink} />
+        </div>
+      ),
       className: "col-span-2",
     },
   ];
