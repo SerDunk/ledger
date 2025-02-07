@@ -330,3 +330,17 @@ export async function updateMember(previousData: unknown, formData: FormData) {
     console.log(e);
   }
 }
+
+//Update Membership Fee
+export async function updateMembershipFee(formData: FormData) {
+  const newMembershipFee = parseInt(formData.get("fee") as string);
+  const id = formData.get("userId") as string;
+  await db.user.update({
+    where: {
+      userId: id,
+    },
+    data: {
+      membershipFee: newMembershipFee,
+    },
+  });
+}

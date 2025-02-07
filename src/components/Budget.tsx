@@ -6,14 +6,14 @@ import { totalSum } from "@/actions/actions";
 import { cn } from "@/lib/utils";
 import { workSans } from "../../public/fonts";
 
-const MEMBERSHIP_FEE: number = 1500;
-
 export default async function Budget({ userId }: { userId: string }) {
   const members: Member[] = await db.member.findMany({
     where: {
       userId: userId,
     },
   });
+  const user = await db.user.findUnique({ where: { userId: userId } });
+  const MEMBERSHIP_FEE = user!.membershipFee;
   const memberships: Member[] = members.filter(
     (member) => member.isMember === true
   );

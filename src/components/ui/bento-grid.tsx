@@ -56,7 +56,7 @@ const BentoCard = ({
     )}
     {...props}
   >
-    <div className="z-10 flex flex-col gap-4 p-6 h-full justify-around">
+    <div className="z-10 flex flex-col gap-4 p-4 h-full justify-around">
       <h3
         className={`text-3xl font-bold text-white dark:text-neutral-300 ${workSans.className}`}
       >

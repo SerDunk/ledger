@@ -17,11 +17,13 @@ model User {
   userId   String  @id 
   name     String
   email    String  
+  membershipFee Int @default(1500)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   shareableToken String @unique
   member Member[] @relation()
   events Event[] @relation()
+  
 }
 
 model Member {

@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { Member } from "./MemberList";
 import { totalSum } from "@/actions/actions";
 import ShareableLink from "./CopyLink";
+import MembershipFeeInput from "./MembershipFeeInput";
 
 const MEMBERSHIP_FEE: number = 1500;
 
@@ -72,8 +73,9 @@ export async function DashboardGrid() {
       href: "/",
       cta: "Learn more",
       main: (
-        <div>
+        <div className="flex flex-col gap-4">
           <ShareableLink shareableLink={shareableLink} />
+          <MembershipFeeInput />
         </div>
       ),
       className: "col-span-2",
