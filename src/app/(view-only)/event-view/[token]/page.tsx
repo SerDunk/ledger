@@ -7,7 +7,7 @@ type ViewProps = {
   params: Promise<{ token: string }>;
 };
 
-export default async function memberViewPage({ params }: ViewProps) {
+export default async function eventViewPage({ params }: ViewProps) {
   const { token } = await params;
 
   if (!token) {

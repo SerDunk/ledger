@@ -4,11 +4,11 @@ import { workSans } from "../../../../../public/fonts";
 import ViewNavbar from "@/components/ViewNavbar";
 
 type ViewProps = {
-  params: { token: string };
+  params: Promise<{ token: string }>;
 };
 
 export default async function MemberViewPage({ params }: ViewProps) {
-  const { token } = params;
+  const { token } = await params;
   if (!token) return <div>Unauthorized</div>;
 
   const members = await db.user.findMany({

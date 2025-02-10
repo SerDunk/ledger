@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import ViewNavbar from "@/components/ViewNavbar";
 
 export default function Layout({
   children,
