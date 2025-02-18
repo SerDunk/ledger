@@ -6,8 +6,6 @@ import { totalSum } from "@/actions/actions";
 import ShareableLink from "./CopyLink";
 import MembershipFeeInput from "./MembershipFeeInput";
 
-const MEMBERSHIP_FEE: number = 1500;
-
 export async function DashboardGrid() {
   const currUser = await auth();
   if (!currUser?.userId) return <div>Unauthorized</div>;
@@ -18,10 +16,19 @@ export async function DashboardGrid() {
     },
   });
 
+  const userMembershipFee = await db.user.findUnique({
+    where: {
+      userId: currUser.userId,
+    },
+    select: {
+      membershipFee: true,
+    },
+  });
+
   const memberships: Member[] = members.filter(
     (member) => member.isMember === true
   );
-  const Budget: number = MEMBERSHIP_FEE * memberships.length;
+  const Budget: number = userMembershipFee!.membershipFee * memberships.length;
   const Expense = await totalSum();
 
   const token = await db.user.findUnique({
