@@ -346,4 +346,6 @@ export async function updateMembershipFee(formData: FormData) {
       membershipFee: newMembershipFee,
     },
   });
+
+  revalidatePath("/dashboard");
 }
