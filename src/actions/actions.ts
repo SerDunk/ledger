@@ -38,9 +38,12 @@ export async function addMember(previousData: unknown, formData: FormData) {
   try {
     const existingMember = await db.member.findUnique({
       where: {
-        phoneNumber: phoneNumber,
-        firstName: firstName,
-        lastName: lastName,
+        phoneNumber_firstName_lastName_userId: {
+          phoneNumber,
+          firstName,
+          lastName,
+          userId: user.userId,
+        },
       },
     });
 

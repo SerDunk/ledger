@@ -15,7 +15,7 @@ export default async function MembershipFeeInput() {
       <div className="text-neutral-400">Customise your membership fee</div>
       <form action={updateMembershipFee} className="flex text-neutral-400">
         <Input type="hidden" name="userId" value={user.userId} />
-        <Input name="fee" placeholder="eg 1500" />
+        <Input name="fee" placeholder="eg. 1500" />
         <Button type="submit">
           <Plus />
         </Button>

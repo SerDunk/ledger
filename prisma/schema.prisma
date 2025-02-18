@@ -23,14 +23,13 @@ model User {
   shareableToken String @unique
   member Member[] @relation()
   events Event[] @relation()
-  
 }
 
 model Member {
   id          String  @id @default(uuid())
   firstName   String
   lastName    String
-  phoneNumber String  @unique
+  phoneNumber String  
   flatNumber  String
   birthday    DateTime
   anniversary DateTime?
@@ -40,6 +39,8 @@ model Member {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   user        User  @relation(fields: [userId], references: [userId])
+
+  @@unique([phoneNumber, firstName, lastName, userId])
 }
 
 
