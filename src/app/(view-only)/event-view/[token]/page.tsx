@@ -29,7 +29,10 @@ export default async function eventViewPage({ params }: ViewProps) {
     const events = userEvents[0].events;
 
     return (
-      <div>
+      <div className="mt-6">
+        <div className={`text-3xl font-bold ${workSans.className}`}>
+          Expense List : 2025
+        </div>
         <div>
           {events.length == 0 && (
             <div
