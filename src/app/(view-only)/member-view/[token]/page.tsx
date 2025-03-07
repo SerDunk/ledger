@@ -16,12 +16,12 @@ export default async function MemberViewPage({ params }: ViewProps) {
     select: { member: true },
   });
 
-  console.log(members[0]);
+  const year = new Date().getFullYear();
 
   return (
     <div className="mt-6">
       <div className={`text-3xl font-bold ${workSans.className}`}>
-        Member List : 2025
+        {`Member List : ${year}`}
       </div>
       {members.map((member) =>
         member.member.map((member) => (

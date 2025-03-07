@@ -27,11 +27,11 @@ export default async function eventViewPage({ params }: ViewProps) {
     });
 
     const events = userEvents[0].events;
-
+    const year = new Date().getFullYear();
     return (
       <div className="mt-6">
         <div className={`text-3xl font-bold ${workSans.className}`}>
-          Expense List : 2025
+          {`Event List : ${year}`}
         </div>
         <div>
           {events.length == 0 && (
