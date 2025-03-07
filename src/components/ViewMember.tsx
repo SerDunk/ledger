@@ -9,7 +9,7 @@ import { workSans } from "../../public/fonts";
 
 export default function ViewMember({ member }: { member: Member }) {
   return (
-    <div className="w-full mt-2">
+    <div className="w-full mt-3">
       <Collapsible key={member.id} className={`mb-2 ${workSans.className}`}>
         <CollapsibleTrigger className="w-full" asChild>
           <div className="flex justify-between items-center bg-gray text-white p-2 rounded-md">
