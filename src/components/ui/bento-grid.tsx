@@ -67,12 +67,16 @@ const BentoCard = ({
     </div>
 
     <div className="flex w-full p-4">
-      <Button variant="ghost" asChild size="sm">
-        <a href={href} className="text-white">
-          {cta}
-          <ArrowRightIcon className="ml-2 h-4 w-4" />
-        </a>
-      </Button>
+      {cta === "" ? (
+        <div></div>
+      ) : (
+        <Button variant="ghost" asChild size="sm">
+          <a href={href} className="text-white">
+            {cta}
+            <ArrowRightIcon className="ml-2 h-4 w-4" />
+          </a>
+        </Button>
+      )}
     </div>
   </div>
 );

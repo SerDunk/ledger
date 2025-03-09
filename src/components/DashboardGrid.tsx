@@ -78,7 +78,7 @@ export async function DashboardGrid() {
       name: "Share",
       description: "",
       href: "/",
-      cta: "Learn more",
+      cta: "",
       main: (
         <div className="flex flex-col gap-4">
           <ShareableLink shareableLink={shareableLink} />

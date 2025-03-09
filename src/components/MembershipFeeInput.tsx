@@ -3,7 +3,7 @@ import { Input } from "./ui/input";
 import { updateMembershipFee } from "@/actions/actions";
 import { redirect } from "next/navigation";
 import { Button } from "./ui/button";
-import { Plus } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default async function MembershipFeeInput() {
   const user = await auth();
@@ -17,7 +17,7 @@ export default async function MembershipFeeInput() {
         <Input type="hidden" name="userId" value={user.userId} />
         <Input name="fee" placeholder="eg. 1500" />
         <Button type="submit">
-          <Plus />
+          <ArrowRight className="w-4 h-4" />
         </Button>
       </form>
     </div>
