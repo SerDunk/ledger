@@ -9,20 +9,29 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-interface KoalaWelcomeEmailProps {
+interface OccasionEmailProps {
   userFirstname: string;
+  occasionType: "birthday" | "anniversary";
+  occasionDate: Date | null;
 }
 
-export const Occasion = ({ userFirstname }: KoalaWelcomeEmailProps) => (
+export const Occasion = ({
+  userFirstname,
+  occasionType,
+  occasionDate,
+}: OccasionEmailProps) => (
   <Html>
     <Head />
     <Body style={main}>
-      <Preview>The easy-to-use book keeping platform</Preview>
+      <Preview>{`Reminder: ${userFirstname}'s ${occasionType}`}</Preview>
       <Container style={container}>
         <Text style={paragraph}>Hi {userFirstname},</Text>
         <Text style={paragraph}>
-          It is users birthday or anniversary today. Make sure to wish user a
-          happy anniversary/happy birthday
+          {`It is ${userFirstname}'s ${occasionType} today! 🎉`}
+        </Text>
+        <Text style={paragraph}>Date: {occasionDate?.toDateString()}</Text>
+        <Text style={paragraph}>
+          Make sure to wish {userFirstname} a happy {occasionType}!
         </Text>
 
         <Text style={paragraph}>
@@ -38,7 +47,9 @@ export const Occasion = ({ userFirstname }: KoalaWelcomeEmailProps) => (
 
 Occasion.PreviewProps = {
   userFirstname: "Saroja",
-} as KoalaWelcomeEmailProps;
+  occasionType: "birthday",
+  occasionDate: new Date(),
+} as OccasionEmailProps;
 
 export default Occasion;
 
