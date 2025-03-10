@@ -42,8 +42,8 @@ export async function GET() {
           : member.anniversary;
 
         await resend.emails.send({
-          from: "onboarding@resend.dev",
-          to: "abhinavkondapalli7@gmail.com", // Replace with the recipient's email
+          from: "abhinavkondapalli7@gmail.com",
+          to: "sarojagoutham@yahoo.co.in",
           subject: `Reminder: ${member.firstName}'s ${occasionType}`,
           react: Occasion({
             userFirstname: "Saroja",
