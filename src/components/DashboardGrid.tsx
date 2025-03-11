@@ -40,7 +40,7 @@ export async function DashboardGrid() {
     },
   });
 
-  const shareableLink = `/member-view/${token?.shareableToken}`;
+  const shareableLink = `${process.env.NEXT_APP_URL}/member-view/${token?.shareableToken}`;
 
   const remainingBudget = Budget - Expense;
 

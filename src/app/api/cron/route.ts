@@ -9,12 +9,10 @@ export async function GET() {
   console.log("Cron job started");
 
   try {
-    // Get today's date
     const today = new Date();
-    const todayMonth = today.getMonth() + 1; // Months are 0-indexed in JavaScript
+    const todayMonth = today.getMonth() + 1;
     const todayDay = today.getDate();
 
-    // Query the database for members with birthdays or anniversaries today
     const members = await db.member.findMany({
       where: {
         OR: [
