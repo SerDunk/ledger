@@ -8,7 +8,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="relative h-full">
+    <div className="flex flex-col justify-between">
       <div>{children}</div>
       <Navbar />
     </div>
