@@ -13,7 +13,7 @@ export default function Home() {
         </h1>
       </div>
       <div>
-        <p className={`text-xl text-black ${workSans.className}`}>
+        <p className={`text-xl text-black text-center ${workSans.className}`}>
           Your easy-to-use record keeper
         </p>
       </div>

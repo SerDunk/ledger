@@ -10,7 +10,7 @@ export default function Container({
 }) {
   return (
     <div
-      className={`max-w-[450px] px-4 sm:justify-center sm:items-center sm:height-full sm:mx-auto  bg-white ${className}`}
+      className={`max-w-[450px] px-4 sm:justify-center sm:items-center h-full sm:mx-auto   bg-white ${className}`}
       {...props}
     >
       {children}
