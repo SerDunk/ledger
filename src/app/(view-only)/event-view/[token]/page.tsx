@@ -1,7 +1,21 @@
 import db from "@/lib/db";
-import { workSans } from "../../../../../public/fonts";
-import ViewEvent from "@/components/ViewEvent";
-import ViewNavbar from "@/components/ViewNavbar";
+import EventView from "@/components/EventView";
+export interface Event {
+  id: string;
+  userId: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  total: number;
+  expenses: {
+    id: string;
+    name: string;
+    amount: number;
+    eventId: string;
+    createdAt: Date;
+    updatedAt: Date;
+  }[];
+}
 
 type ViewProps = {
   params: Promise<{ token: string }>;
@@ -12,47 +26,22 @@ export default async function eventViewPage({ params }: ViewProps) {
 
   if (!token) {
     return <div>Unauthorized</div>;
-  } else {
-    const userEvents = await db.user.findMany({
-      where: {
-        shareableToken: token,
-      },
-      include: {
-        events: {
-          include: {
-            expenses: true,
-          },
+  }
+
+  const userEvents = await db.user.findMany({
+    where: {
+      shareableToken: token,
+    },
+    include: {
+      events: {
+        include: {
+          expenses: true,
         },
       },
-    });
+    },
+  });
 
-    const events = userEvents[0].events;
-    const year = new Date().getFullYear();
-    return (
-      <div className="mt-6">
-        <div className={`text-3xl font-bold ${workSans.className}`}>
-          {`Event List : ${year}`}
-        </div>
-        <div>
-          {events.length == 0 && (
-            <div
-              className={`text-center mt-40 text-gray flex justify-center items-center ${workSans.className}`}
-            >
-              <p>No events found</p>
-            </div>
-          )}
-          {events.map((event) => {
-            return (
-              <div key={event.id}>
-                <ViewEvent event={event} />
-              </div>
-            );
-          })}
-        </div>
-        <div>
-          <ViewNavbar token={token} />
-        </div>
-      </div>
-    );
-  }
+  const events = userEvents[0]?.events ?? [];
+
+  return <EventView events={events} token={token} />;
 }

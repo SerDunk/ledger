@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ClipboardCopyIcon, CheckIcon } from "@radix-ui/react-icons";
+import { useExpenseContext } from "@/app/context";
 
-const ShareableLink = ({ shareableLink }: { shareableLink: string }) => {
+const ShareableLink = ({ shareableToken }: { shareableToken: string }) => {
   const [copied, setCopied] = useState(false);
-
+  const { expenseView } = useExpenseContext();
+  const shareableLink = `${process.env.NEXT_PUBLIC_APP_URL}/member-view/${shareableToken}?expenseView=${expenseView}`;
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(shareableLink);

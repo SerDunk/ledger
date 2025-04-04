@@ -23,6 +23,13 @@ export default async function MemberViewPage({ params }: ViewProps) {
       <div className={`text-3xl font-bold ${workSans.className}`}>
         {`Member List : ${year}`}
       </div>
+      {members.length == 0 && (
+        <div
+          className={`text-center mt-40 text-gray flex justify-center items-center ${workSans.className}`}
+        >
+          <p>No Members found</p>
+        </div>
+      )}
       {members.map((member) =>
         member.member.map((member) => (
           <div key={member.id}>

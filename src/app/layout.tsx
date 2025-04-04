@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
-import Container from "@/components/Container";
+import type { Metadata } from "next";
+import ClientLayout from "@/components/ClientLayout";
 
 export const metadata: Metadata = {
   title: "Ledger",
@@ -10,17 +9,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>
-        <ClerkProvider
-          publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-        >
-          <Container>{children}</Container>
-        </ClerkProvider>
+      <body className="antialiased">
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

@@ -41,8 +41,6 @@ export async function DashboardGrid() {
     },
   });
 
-  const shareableLink = `${process.env.NEXT_APP_URL}/member-view/${token?.shareableToken}`;
-
   const remainingBudget = Budget - Expense;
 
   const features = [
@@ -82,7 +80,7 @@ export async function DashboardGrid() {
       cta: "",
       main: (
         <div className="flex flex-col gap-4">
-          <ShareableLink shareableLink={shareableLink} />
+          <ShareableLink shareableToken={token!.shareableToken!} />
           <MembershipFeeInput />
           <OptionForExpenses />
         </div>
