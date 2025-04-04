@@ -17,7 +17,7 @@ export default function EventView({
   const searchParams = useSearchParams();
   const expenseView = searchParams.get("expenseView") === "true";
 
-  if (!expenseView) return null;
+  if (expenseView) return null;
 
   return (
     <div className="mt-6">

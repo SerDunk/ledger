@@ -18,7 +18,7 @@ export default function ViewNavbar({ token }: { token: string }) {
       </div>
       {!expenseView && (
         <div>
-          <Link href={`/event-view/${token}?expenseView=true`}>
+          <Link href={`/event-view/${token}`}>
             <ReceiptIndianRupee />
           </Link>
         </div>
