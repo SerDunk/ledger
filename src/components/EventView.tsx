@@ -21,11 +21,8 @@ export default function EventView({
         <div
           className={`text-3xl font-bold ${workSans.className}`}
         >{`Event List : ${year}`}</div>
-        <div className="text-center mt-40 text-gray flex justify-center items-center">
-          <p>Expenses are hidden by the club admin.</p>
-        </div>
         <div>
-          <ViewNavbar token={token} />
+          <ViewNavbar token={token} hideExpense={true} />
         </div>
       </div>
     );
@@ -49,7 +46,7 @@ export default function EventView({
         ))
       )}
       <div>
-        <ViewNavbar token={token} />
+        <ViewNavbar token={token} hideExpense={false} />
       </div>
     </div>
   );

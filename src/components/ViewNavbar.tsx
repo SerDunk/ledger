@@ -4,7 +4,13 @@ import { ReceiptIndianRupee, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-export default function ViewNavbar({ token }: { token: string }) {
+export default function ViewNavbar({
+  token,
+  hideExpense = false,
+}: {
+  token: string;
+  hideExpense?: boolean;
+}) {
   const searchParams = useSearchParams();
   const expenseView = searchParams.get("expenseView") === "true";
   console.log(expenseView);
@@ -16,7 +22,7 @@ export default function ViewNavbar({ token }: { token: string }) {
           <UserIcon />
         </Link>
       </div>
-      {!expenseView && (
+      {!expenseView && !hideExpense && (
         <div>
           <Link href={`/event-view/${token}`}>
             <ReceiptIndianRupee />
