@@ -29,6 +29,14 @@ export async function GET() {
           },
         ],
       },
+      include: {
+        user: {
+          select: {
+            email: true,
+            name: true,
+          },
+        },
+      },
     });
 
     if (members.length > 0) {
@@ -38,19 +46,24 @@ export async function GET() {
         const occasionDate = member.birthday
           ? member.birthday
           : member.anniversary;
+        const toEmail = member.user?.email;
+        const userFirstname = member.user?.name || "User";
+        if (!toEmail) continue;
 
         await resend.emails.send({
           from: "abhinavkondapalli7@gmail.com",
-          to: "sarojagoutham@yahoo.co.in",
+          to: toEmail,
           subject: `Reminder: ${member.firstName}'s ${occasionType}`,
           react: Occasion({
-            userFirstname: "Saroja",
+            userFirstname,
             occasionType,
             occasionDate,
           }),
         });
 
-        console.log(`Email sent for ${member.firstName}'s ${occasionType}`);
+        console.log(
+          `Email sent to ${toEmail} for ${member.firstName}'s ${occasionType}`
+        );
       }
     } else {
       console.log("No birthdays or anniversaries today.");
