@@ -349,3 +349,36 @@ export async function updateMembershipFee(formData: FormData) {
 
   revalidatePath("/dashboard");
 }
+
+//Toggle Expense View
+// actions.ts
+export async function updateExpenseViewPreference(
+  prevState: unknown,
+  formData: FormData
+) {
+  const user = await auth();
+  if (!user.userId) {
+    return { success: false, error: "Unauthorized" };
+  }
+
+  const value = formData.get("value") === "true";
+
+  try {
+    await db.user.update({
+      where: { userId: user.userId },
+      data: { hideExpense: value },
+    });
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    console.error("Update failed:", error);
+    return { success: false, error: "Failed to update preference" };
+  }
+}
+
+export async function setHideExpense(userId: string, value: boolean) {
+  await db.user.update({
+    where: { userId },
+    data: { hideExpense: value },
+  });
+}

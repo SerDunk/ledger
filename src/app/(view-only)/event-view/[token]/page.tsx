@@ -42,6 +42,7 @@ export default async function eventViewPage({ params }: ViewProps) {
   });
 
   const events = userEvents[0]?.events ?? [];
+  const hideExpense = userEvents[0]?.hideExpense ?? false;
 
-  return <EventView events={events} token={token} />;
+  return <EventView events={events} token={token} hideExpense={hideExpense} />;
 }

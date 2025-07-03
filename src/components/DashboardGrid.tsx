@@ -5,7 +5,7 @@ import { Member } from "./MemberList";
 import { totalSum } from "@/actions/actions";
 import ShareableLink from "./CopyLink";
 import MembershipFeeInput from "./MembershipFeeInput";
-import OptionForExpenses from "./OptionForExpenses";
+import { OptionForExpenses } from "./OptionForExpenses";
 
 export async function DashboardGrid() {
   const currUser = await auth();
@@ -23,6 +23,7 @@ export async function DashboardGrid() {
     },
     select: {
       membershipFee: true,
+      hideExpense: true,
     },
   });
 
@@ -82,7 +83,7 @@ export async function DashboardGrid() {
         <div className="flex flex-col gap-4">
           <ShareableLink shareableToken={token!.shareableToken!} />
           <MembershipFeeInput />
-          <OptionForExpenses />
+          <OptionForExpenses initialValue={userMembershipFee!.hideExpense} />
         </div>
       ),
       className: "col-span-2",
