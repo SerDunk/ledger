@@ -5,7 +5,13 @@ import Occasion from "@/emails/Occasion";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function GET() {
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const token = url.searchParams.get("token");
+  if (token !== process.env.CRON_SECRET) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
   console.log("Cron job started");
 
   try {

@@ -4,7 +4,10 @@ import db from "@/lib/db";
 import { workSans } from "../../../../public/fonts";
 import { redirect } from "next/navigation";
 import crypto from "crypto";
-import { DashboardGrid } from "@/components/DashboardGrid";
+import { totalSum } from "@/actions/actions";
+import MembersModal from "@/components/dashboard/MembersModal";
+import BudgetModal from "@/components/dashboard/BudgetModal";
+import ShareModal from "@/components/dashboard/ShareModal";
 
 export default async function Dashboard() {
   const { userId } = await auth();
@@ -14,7 +17,7 @@ export default async function Dashboard() {
   const currUser = await currentUser();
   if (!currUser) return <div>Unauthorized</div>;
 
-  const existingUser = await db.user.findUnique({
+  let existingUser = await db.user.findUnique({
     where: {
       userId: currUser?.id,
     },
@@ -22,7 +25,7 @@ export default async function Dashboard() {
 
   if (!existingUser) {
     const shareableToken = crypto.randomBytes(16).toString("hex");
-    await db.user.create({
+    existingUser = await db.user.create({
       data: {
         userId: currUser.id,
         name: currUser.firstName + " " + currUser.lastName,
@@ -32,21 +35,44 @@ export default async function Dashboard() {
     });
   }
 
-  return (
-    <div className="flex flex-col py-6 items-center">
-      <div className="flex w-full justify-between">
-        <div
-          className={`text-lg ${workSans.className} font-semibold text-gray`}
-        >
-          Welcome {currUser.fullName} !
-        </div>
-        <div>
-          <UserButton />
-        </div>
-      </div>
+  const members = await db.member.findMany({
+    where: {
+      userId: currUser.id,
+    },
+  });
+  const userMembershipFee = await db.user.findUnique({
+    where: {
+      userId: currUser.id,
+    },
+    select: {
+      membershipFee: true,
+      hideExpense: true,
+    },
+  });
+  const memberships = members.filter((member) => member.isMember === true);
+  const Budget = (userMembershipFee?.membershipFee || 0) * memberships.length;
+  const Expense = await totalSum();
+  const token = existingUser.shareableToken;
+  const remainingBudget = Budget - Expense;
 
-      <div className="py-4">
-        <DashboardGrid />
+  return (
+    <div className="flex flex-col py-4 px-2 sm:px-0 items-center min-h-screen">
+      <div className="flex w-full max-w-2xl justify-between items-center mb-2">
+        <div
+          className={`text-xl sm:text-3xl ${workSans.className} font-bold text-gray`}
+        >
+          Welcome {currUser.fullName}!
+        </div>
+        <UserButton />
+      </div>
+      <div className="flex flex-col gap-2 w-full max-w-2xl">
+        <MembersModal count={members.length} />
+        <BudgetModal remainingBudget={remainingBudget} />
+        <ShareModal
+          token={token}
+          hideExpense={userMembershipFee?.hideExpense || false}
+          userId={currUser.id}
+        />
       </div>
     </div>
   );

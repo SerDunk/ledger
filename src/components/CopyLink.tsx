@@ -8,6 +8,7 @@ import { useExpenseContext } from "@/app/context";
 const ShareableLink = ({ shareableToken }: { shareableToken: string }) => {
   const [copied, setCopied] = useState(false);
   const { expenseView } = useExpenseContext();
+
   const shareableLink = `${process.env.NEXT_PUBLIC_APP_URL}/member-view/${shareableToken}?expenseView=${expenseView}`;
   const copyToClipboard = async () => {
     try {
@@ -21,7 +22,7 @@ const ShareableLink = ({ shareableToken }: { shareableToken: string }) => {
 
   return (
     <div>
-      <div className="text-neutral-400 px-2 py-2">
+      <div className="text-neutral-400 py-2">
         <div>Want to share data with your members?</div>
         <div>Do it with this link.</div>
       </div>
@@ -30,13 +31,13 @@ const ShareableLink = ({ shareableToken }: { shareableToken: string }) => {
           type="text"
           value={shareableLink}
           readOnly
-          className="w-full p-2 text-sm bg-transparent border-none outline-none"
+          className="w-full p-2 text-sm text-gray border-none outline-none"
         />
         <Button onClick={copyToClipboard} size="sm" variant="outline">
           {copied ? (
-            <CheckIcon className="w-4 h-4 text-green-500" />
+            <CheckIcon className="w-4 h-4 text-gray" />
           ) : (
-            <ClipboardCopyIcon className="w-4 h-4" />
+            <ClipboardCopyIcon className="w-4 h-4 text-gray" />
           )}
         </Button>
       </div>
